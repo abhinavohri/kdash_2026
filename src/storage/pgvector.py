@@ -145,6 +145,27 @@ class VectorStore:
         
         return indices
     
+    def get_all_chunks(self, book_name: str) -> List[str]:
+        """
+        Get all chunk contents for a book (for BM25 indexing).
+        
+        Args:
+            book_name: Name of the book
+            
+        Returns:
+            List of chunk contents ordered by chunk_index
+        """
+        self._ensure_connection()
+        
+        with self.conn.cursor() as cur:
+            cur.execute(
+                "SELECT content FROM chunks WHERE book_name = %s ORDER BY chunk_index",
+                (book_name,)
+            )
+            chunks = [row[0] for row in cur.fetchall()]
+        
+        return chunks
+    
     def insert_chunks(
         self, 
         chunks: List[Dict],

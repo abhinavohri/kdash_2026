@@ -100,6 +100,16 @@ Examples:
         default="results.csv",
         help="Output file path for results (default: results.csv)"
     )
+    parser.add_argument(
+        "--hybrid",
+        action="store_true",
+        help="Enable hybrid search (embedding + BM25)"
+    )
+    parser.add_argument(
+        "--rerank",
+        action="store_true",
+        help="Enable reranking with cross-encoder"
+    )
     
     return parser.parse_args()
 
@@ -128,6 +138,15 @@ def main():
     if args.one_book:
         config.books_filter = ["In search of the castaways"]
         logger.info("One-book mode: indexing only 'In search of the castaways'")
+    
+    # Hybrid search and reranking
+    if args.hybrid:
+        config.retrieval.use_hybrid = True
+        logger.info("Hybrid search enabled (embedding + BM25)")
+    
+    if args.rerank:
+        config.retrieval.use_reranking = True
+        logger.info("Reranking enabled (cross-encoder)")
     
     # Create pipeline
     pipeline = KDSHPipeline(config)

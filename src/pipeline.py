@@ -210,6 +210,9 @@ class KDSHPipeline:
         """
         Run evaluation on the training dataset.
         
+        Filters to only evaluate rows from indexed books.
+        Auto-exports results to JSON.
+        
         Args:
             csv_path: Path to CSV file (uses config default if None)
             num_rows: Number of rows to evaluate (uses config default if None)
@@ -217,24 +220,35 @@ class KDSHPipeline:
         Returns:
             DataFrame with predictions and metrics
         """
+        import json
+        
         csv_path = csv_path or self.config.train_csv
         num_rows = num_rows or self.config.eval_rows
         
         logger.info("=" * 60)
-        logger.info(f"Running Evaluation on {num_rows} rows")
+        logger.info(f"Running Evaluation")
         logger.info("=" * 60)
+        
+        # Ensure books are indexed first
+        self.index_books()
+        
+        # Get list of indexed books
+        indexed_books = self.store.get_indexed_books()
+        logger.info(f"Indexed books: {indexed_books}")
         
         # Load data
         df = pd.read_csv(csv_path)
         logger.info(f"Loaded {len(df)} rows from {csv_path}")
         
+        # Filter to only indexed books
+        df['normalized_book'] = df['book_name'].apply(self._normalize_book_name)
+        df = df[df['normalized_book'].isin(indexed_books)]
+        logger.info(f"Filtered to {len(df)} rows from indexed books")
+        
         # Limit rows if specified
         if num_rows and num_rows < len(df):
             df = df.head(num_rows)
             logger.info(f"Evaluating first {num_rows} rows")
-        
-        # Ensure books are indexed
-        self.index_books()
         
         # Process each row
         results = []
@@ -281,12 +295,57 @@ class KDSHPipeline:
         logger.info(f"Accuracy: {accuracy:.2%} ({correct_count}/{total_count})")
         
         # Breakdown by label
+        metrics = {
+            'total_samples': int(total_count),
+            'correct': int(correct_count),
+            'accuracy': float(accuracy),
+            'by_label': {}
+        }
+        
         for label in [0, 1]:
             subset = results_df[results_df['actual'] == label]
             if len(subset) > 0:
                 label_acc = subset['correct'].mean()
                 label_name = 'consistent' if label == 1 else 'inconsistent'
                 logger.info(f"  {label_name}: {label_acc:.2%} ({subset['correct'].sum()}/{len(subset)})")
+                metrics['by_label'][label_name] = {
+                    'total': len(subset),
+                    'correct': int(subset['correct'].sum()),
+                    'accuracy': float(label_acc)
+                }
+        
+        # Auto-export to JSON with experiment name
+        from datetime import datetime
+        import os
+        
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        exp_name = f"topk{self.config.retrieval.top_k}_chunk{self.config.chunking.chunk_size}"
+        filename = f"experiments/exp_{timestamp}_{exp_name}.json"
+        
+        os.makedirs("experiments", exist_ok=True)
+        
+        json_output = {
+            'run_info': {
+                'timestamp': timestamp,
+                'rows': int(total_count),
+                'books': indexed_books,
+                'model': self.config.llm.model,
+                'top_k': self.config.retrieval.top_k,
+                'chunk_size': self.config.chunking.chunk_size,
+                'chunk_strategy': self.config.chunking.strategy
+            },
+            'metrics': metrics,
+            'predictions': results
+        }
+        
+        with open(filename, 'w') as f:
+            json.dump(json_output, f, indent=2)
+        
+        # Also update latest results
+        with open('evaluation_results.json', 'w') as f:
+            json.dump(json_output, f, indent=2)
+        
+        logger.info(f"Results saved to {filename}")
         
         return results_df
     

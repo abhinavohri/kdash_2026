@@ -71,12 +71,27 @@ class RetrievalConfig:
     
     Attributes:
         top_k: Number of chunks to retrieve
-        use_reranking: Whether to apply reranking (Phase 2)
+        use_hybrid: Whether to use hybrid search (embedding + BM25)
+        hybrid_alpha: Weight for embedding score (1-alpha for BM25)
+        use_reranking: Whether to apply reranking after retrieval
+        rerank_model: Model for reranking (cross-encoder)
         similarity_threshold: Minimum similarity score (0-1)
     """
     top_k: int = 10
+    
+    # Hybrid search settings
+    use_hybrid: bool = False
+    hybrid_alpha: float = 0.7  # 0.7 embedding + 0.3 BM25
+    
+    # Reranking settings
     use_reranking: bool = False
+    rerank_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    rerank_top_k: int = 5  # Final top-k after reranking
+    
     similarity_threshold: float = 0.0
+    
+    # Query expansion
+    use_query_expansion: bool = False  # Prepend character name to query
 
 
 @dataclass

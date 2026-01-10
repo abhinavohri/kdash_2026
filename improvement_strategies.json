@@ -1,0 +1,151 @@
+{
+    "improvement_strategies": {
+        "1_retrieval": {
+            "description": "Improve evidence retrieval quality",
+            "techniques": {
+                "increase_top_k": {
+                    "description": "Retrieve more chunks (10 → 20)",
+                    "config": "config.retrieval.top_k = 20",
+                    "impact": "medium"
+                },
+                "hybrid_search": {
+                    "description": "Combine dense (embedding) + sparse (BM25) retrieval",
+                    "implementation": "Add BM25 scorer, combine with cosine similarity",
+                    "impact": "high"
+                },
+                "reranking": {
+                    "description": "Use cross-encoder to rerank retrieved chunks",
+                    "implementation": "Add cross-encoder model after initial retrieval",
+                    "impact": "high"
+                },
+                "query_expansion": {
+                    "description": "Expand backstory query with character name, key terms",
+                    "implementation": "Prepend character name and book to query",
+                    "impact": "medium"
+                }
+            }
+        },
+        "2_chunking": {
+            "description": "Improve how novels are split into chunks",
+            "techniques": {
+                "sentence_chunking": {
+                    "description": "Split at sentence boundaries instead of word count",
+                    "config": "config.chunking.strategy = 'sentence'",
+                    "impact": "medium"
+                },
+                "semantic_chunking": {
+                    "description": "Split based on topic/semantic shifts",
+                    "implementation": "Use embedding similarity to detect topic changes",
+                    "impact": "high"
+                },
+                "smaller_chunks": {
+                    "description": "Use smaller chunks (500 words) with more overlap",
+                    "config": "config.chunking.chunk_size = 500, overlap = 150",
+                    "impact": "medium"
+                },
+                "chapter_aware": {
+                    "description": "Preserve chapter boundaries when chunking",
+                    "implementation": "Detect chapter markers, don't split across them",
+                    "impact": "medium"
+                }
+            }
+        },
+        "3_prompt_engineering": {
+            "description": "Improve LLM classification prompt",
+            "techniques": {
+                "few_shot_examples": {
+                    "description": "Add 2-3 examples of consistent vs inconsistent",
+                    "implementation": "Add examples to CLASSIFICATION_PROMPT",
+                    "impact": "high"
+                },
+                "chain_of_thought": {
+                    "description": "Force step-by-step reasoning before answer",
+                    "implementation": "Add 'Think step by step' and structured reasoning",
+                    "impact": "medium"
+                },
+                "claim_extraction": {
+                    "description": "First extract claims from backstory, then verify each",
+                    "implementation": "Two-stage prompting: extract → verify",
+                    "impact": "high"
+                },
+                "confidence_scoring": {
+                    "description": "Ask model to rate confidence, flag low-confidence",
+                    "implementation": "Add CONFIDENCE: 1-10 to output format",
+                    "impact": "low"
+                }
+            }
+        },
+        "4_model_selection": {
+            "description": "Use better/different models",
+            "techniques": {
+                "gemini_pro": {
+                    "description": "Use gemini-2.5-pro for better reasoning",
+                    "config": "--model gemini-2.5-pro",
+                    "impact": "medium"
+                },
+                "ensemble": {
+                    "description": "Run multiple models, vote on answer",
+                    "implementation": "Run flash + pro, take majority vote",
+                    "impact": "high"
+                },
+                "larger_context": {
+                    "description": "Use models with longer context window",
+                    "implementation": "Pass more chunks to LLM",
+                    "impact": "medium"
+                }
+            }
+        },
+        "5_evidence_processing": {
+            "description": "Better handle retrieved evidence",
+            "techniques": {
+                "evidence_summarization": {
+                    "description": "Summarize evidence before classification",
+                    "implementation": "LLM summarizes chunks, then classifies",
+                    "impact": "medium"
+                },
+                "contradiction_detection": {
+                    "description": "Explicitly check for contradictions first",
+                    "implementation": "Separate prompt for finding contradictions",
+                    "impact": "high"
+                },
+                "temporal_reasoning": {
+                    "description": "Extract and compare timelines",
+                    "implementation": "Build timeline from evidence, check backstory fits",
+                    "impact": "high"
+                },
+                "character_profiling": {
+                    "description": "Build character profile from evidence first",
+                    "implementation": "Extract traits, relationships, then compare",
+                    "impact": "high"
+                }
+            }
+        },
+        "6_data_augmentation": {
+            "description": "Improve training/evaluation data",
+            "techniques": {
+                "hard_negative_mining": {
+                    "description": "Find cases model gets wrong, analyze patterns",
+                    "implementation": "Log failures, identify common failure modes",
+                    "impact": "medium"
+                },
+                "synthetic_examples": {
+                    "description": "Generate more training examples using LLM",
+                    "implementation": "Create synthetic consistent/inconsistent pairs",
+                    "impact": "medium"
+                }
+            }
+        }
+    },
+    "quick_wins": [
+        "Increase top_k from 10 to 20",
+        "Add few-shot examples to prompt",
+        "Use sentence chunking",
+        "Add character name to retrieval query"
+    ],
+    "high_impact_changes": [
+        "Hybrid search (BM25 + embeddings)",
+        "Reranking with cross-encoder",
+        "Two-stage claim extraction → verification",
+        "Contradiction detection prompt"
+    ]
+}

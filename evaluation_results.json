@@ -1,0 +1,132 @@
+{
+  "run_info": {
+    "timestamp": "20260110_131416",
+    "rows": 10,
+    "books": [
+      "In search of the castaways"
+    ],
+    "model": "gemini-2.5-flash",
+    "top_k": 10,
+    "chunk_size": 1000,
+    "chunk_strategy": "fixed_overlap"
+  },
+  "metrics": {
+    "total_samples": 10,
+    "correct": 7,
+    "accuracy": 0.7,
+    "by_label": {
+      "inconsistent": {
+        "total": 2,
+        "correct": 2,
+        "accuracy": 1.0
+      },
+      "consistent": {
+        "total": 8,
+        "correct": 5,
+        "accuracy": 0.625
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": 46,
+      "book_name": "In Search of the Castaways",
+      "character": "Thalcave",
+      "backstory": "Thalcave\u2019s people faded as colonists advanced; his father, last of the tribal guides, knew the pampa...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The backstory is entirely consistent with Thalcave's demonstrated skills, knowledge of the land and its history, and cultural background as depicted in the novel excerpts."
+    },
+    {
+      "id": 74,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Before each fight he studied the crack-patterns of his mother\u2019s shark-tooth necklace by moonlight to...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The backstory does not directly contradict any information or established elements within the provided excerpts, and its claims are broadly plausible within the context of an adventure novel."
+    },
+    {
+      "id": 35,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "The mutiny began when Captain Grant uncovered his forged logbook and threatened to report him; \u201cmaro...",
+      "prediction": 0,
+      "actual": 0,
+      "correct": true,
+      "rationale": "The backstory is inconsistent because the novel explicitly reveals that Ayrton invented the shipwreck story, meaning no mutiny or marooning of Captain Grant could have occurred on the Britannia as described."
+    },
+    {
+      "id": 18,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He once found bribery entries in his father\u2019s old ledgers, reported them, and saw his father\u2019s colle...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The backstory contains no direct contradictions with the novel's events or character portrayals, and the \"temporary\" nature of Paganel's wariness allows for his current loyal and open interactions with Lord and Lady Glenarvan."
+    },
+    {
+      "id": 31,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "He rescued the indigenous elder Yurook from colonists and gained tribal protection, learning bush tr...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "Ayrton's own account in the novel explicitly states he was a \"prisoner\" and endured \"painful slavery\" with a native tribe, from which he later escaped, directly contradicting the backstory's claims of rescuing an elder and gaining tribal protection."
+    },
+    {
+      "id": 68,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At ten, migrating with his clan, a flame-shaped birth-mark on his forehead convinced elders he was t...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory is inconsistent because it places European bison in New Zealand, which directly contradicts the novel's established geographical and ecological setting for Kai-Koumou as a Maori chief."
+    },
+    {
+      "id": 9,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He accidentally slipped a farewell letter to his French sweetheart into an academic report; the roma...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The backstory perfectly aligns with Paganel's defining absent-mindedness and his established professional standing, with the ironic outcome being consistent with the novel's humorous portrayal of his character."
+    },
+    {
+      "id": 84,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "In a skirmish at a British outpost friendly fire killed several of his comrades; he took bones from ...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory is inconsistent because it places a Maori chief in a British outpost as a \"comrade\" experiencing \"friendly fire,\" which directly contradicts the novel's portrayal of Maori-European relations and Kai-Koumou's role as a traditional, often hostile, Maori leader."
+    },
+    {
+      "id": 83,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At eighteen, on the run in Tasmania, he met the escaped convict Ayrton hiding in the bush; the two f...",
+      "prediction": 0,
+      "actual": 0,
+      "correct": true,
+      "rationale": "The backstory is inconsistent because Ayrton's established timeline and geographical location in the novel (shipwrecked on mainland Australia, enslaved, then leading convicts in Victoria/New South Wales) directly contradict his presence in Tasmania as an escaped convict."
+    },
+    {
+      "id": 67,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Born on New Zealand\u2019s North-island east coast to a Maori war-chief father and a priestess mother ski...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The backstory aligns perfectly with the novel's depiction of Kai-Koumou's character, the ongoing British-Maori conflict, and established Maori cultural practices, with no direct contradictions or causal impossibilities."
+    }
+  ]
+}
