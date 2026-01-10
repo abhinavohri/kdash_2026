@@ -43,12 +43,18 @@ class LLMConfig:
         temperature: Sampling temperature (lower = more deterministic)
         max_tokens: Maximum tokens in response
         rpm_limit: Requests per minute limit (5 for free tier flash)
+        prompt_strategy: Prompting strategy ('base', 'few_shot', 'cot', 'claim_extraction')
     """
     provider: Literal["gemini", "openai", "anthropic"] = "gemini"
     model: str = field(default_factory=lambda: os.getenv("LLM_MODEL", "gemini-2.5-flash"))
     temperature: float = 0.2
     max_tokens: int = 4096
     rpm_limit: int = field(default_factory=lambda: int(os.getenv("LLM_RPM_LIMIT", "5")))  # 5 RPM for flash
+    prompt_strategy: str = "base"  # Options: base, few_shot, cot, claim_extraction
+    
+    # Local model settings
+    use_local: bool = False  # Use Ollama instead of API
+    local_model: str = "llama3.2"  # Ollama model name
 
 
 @dataclass

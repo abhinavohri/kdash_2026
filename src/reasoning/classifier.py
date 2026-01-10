@@ -34,9 +34,19 @@ class ConsistencyClassifier:
             config: LLM configuration (if no provider given)
         """
         self.config = config or LLMConfig()
-        self.llm = llm_provider or get_llm_provider(config)
         
-        logger.info(f"Initialized ConsistencyClassifier with model={self.config.model}")
+        if llm_provider:
+            self.llm = llm_provider
+        elif self.config.use_local:
+            # Use Ollama for local inference
+            from ..models.ollama_llm import get_ollama_llm
+            self.llm = get_ollama_llm(model=self.config.local_model, config=self.config)
+        else:
+            # Use cloud API (Gemini)
+            self.llm = get_llm_provider(config)
+        
+        model_name = self.config.local_model if self.config.use_local else self.config.model
+        logger.info(f"Initialized ConsistencyClassifier with model={model_name} (local={self.config.use_local})")
     
     def classify(
         self,

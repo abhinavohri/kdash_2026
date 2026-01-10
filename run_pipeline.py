@@ -110,6 +110,24 @@ Examples:
         action="store_true",
         help="Enable reranking with cross-encoder"
     )
+    parser.add_argument(
+        "--prompt",
+        type=str,
+        choices=["base", "few_shot", "cot", "claim_extraction"],
+        default="base",
+        help="Prompting strategy: base, few_shot (examples), cot (chain-of-thought), claim_extraction"
+    )
+    parser.add_argument(
+        "--local",
+        action="store_true",
+        help="Use local Ollama model instead of Gemini API"
+    )
+    parser.add_argument(
+        "--local-model",
+        type=str,
+        default="llama3.2",
+        help="Ollama model to use (default: llama3.2). Pull with: ollama pull <model>"
+    )
     
     return parser.parse_args()
 
@@ -147,6 +165,17 @@ def main():
     if args.rerank:
         config.retrieval.use_reranking = True
         logger.info("Reranking enabled (cross-encoder)")
+    
+    # Prompting strategy
+    if args.prompt != "base":
+        config.llm.prompt_strategy = args.prompt
+        logger.info(f"Using prompt strategy: {args.prompt}")
+    
+    # Local model (Ollama)
+    if args.local:
+        config.llm.use_local = True
+        config.llm.local_model = args.local_model
+        logger.info(f"Using local model: {args.local_model} (Ollama)")
     
     # Create pipeline
     pipeline = KDSHPipeline(config)

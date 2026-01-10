@@ -88,7 +88,7 @@ class GeminiLLM(LLMProvider):
         """
         Generate a response from Gemini.
         
-        Includes rate limiting to stay within RPM quota.
+        Includes rate limiting and automatic retry for quota errors.
         
         Args:
             prompt: Input prompt
@@ -96,6 +96,8 @@ class GeminiLLM(LLMProvider):
         Returns:
             Generated text response
         """
+        from google.api_core.exceptions import ResourceExhausted
+        
         # Rate limiting
         if self._delay > 0:
             elapsed = time.time() - self._last_call_time
@@ -108,15 +110,30 @@ class GeminiLLM(LLMProvider):
         
         logger.debug(f"Generating response for prompt: {prompt[:100]}...")
         
-        response = self.model.generate_content(
-            prompt,
-            generation_config=genai.types.GenerationConfig(
-                temperature=self.config.temperature,
-                max_output_tokens=self.config.max_tokens,
-            )
-        )
+        # Retry with exponential backoff
+        max_retries = 5
+        base_delay = 5.0
         
-        return response.text
+        for attempt in range(max_retries):
+            try:
+                response = self.model.generate_content(
+                    prompt,
+                    generation_config=genai.types.GenerationConfig(
+                        temperature=self.config.temperature,
+                        max_output_tokens=self.config.max_tokens,
+                    )
+                )
+                return response.text
+                
+            except ResourceExhausted as e:
+                if attempt < max_retries - 1:
+                    # Extract retry delay from error if available
+                    wait_time = base_delay * (2 ** attempt)
+                    logger.warning(f"Rate limit hit, waiting {wait_time:.1f}s (attempt {attempt + 1}/{max_retries})")
+                    time.sleep(wait_time)
+                else:
+                    logger.error(f"Rate limit: max retries exceeded")
+                    raise
     
     def classify_consistency(
         self, 
@@ -128,7 +145,7 @@ class GeminiLLM(LLMProvider):
         """
         Classify whether a backstory is consistent with the novel.
         
-        Uses chain-of-thought prompting for better reasoning.
+        Uses configurable prompting strategy for better reasoning.
         
         Args:
             backstory: Character backstory to verify
@@ -139,7 +156,10 @@ class GeminiLLM(LLMProvider):
         Returns:
             Tuple of (prediction: 0 or 1, rationale: explanation)
         """
+        from .prompts import format_prompt
+        
         logger.info(f"Classifying consistency for {character} in {book_name}")
+        logger.debug(f"Using prompt strategy: {self.config.prompt_strategy}")
         
         # Format evidence
         evidence_text = "\n\n---\n\n".join([
@@ -147,8 +167,9 @@ class GeminiLLM(LLMProvider):
             for i, excerpt in enumerate(evidence)
         ])
         
-        # Build prompt
-        prompt = CLASSIFICATION_PROMPT.format(
+        # Build prompt using selected strategy
+        prompt = format_prompt(
+            strategy=self.config.prompt_strategy,
             character=character,
             book_name=book_name,
             backstory=backstory,

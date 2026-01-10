@@ -1,0 +1,135 @@
+{
+  "run_info": {
+    "timestamp": "20260110_143100",
+    "rows": 10,
+    "books": [
+      "In search of the castaways"
+    ],
+    "model": "gemini-2.5-flash",
+    "prompt_strategy": "cot",
+    "top_k": 10,
+    "use_hybrid": false,
+    "use_reranking": false,
+    "chunk_size": 1000,
+    "chunk_strategy": "fixed_overlap"
+  },
+  "metrics": {
+    "total_samples": 10,
+    "correct": 6,
+    "accuracy": 0.6,
+    "by_label": {
+      "inconsistent": {
+        "total": 2,
+        "correct": 2,
+        "accuracy": 1.0
+      },
+      "consistent": {
+        "total": 8,
+        "correct": 4,
+        "accuracy": 0.5
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": 46,
+      "book_name": "In Search of the Castaways",
+      "character": "Thalcave",
+      "backstory": "Thalcave\u2019s people faded as colonists advanced; his father, last of the tribal guides, knew the pampa...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The character backstory for Thalcave is CONSISTENT with the novel. While many specific details about his father and mother are not explicitly mentioned in the provided excerpts, none of the claims are contradicted. Thalcave's demonstrated skills (geographical knowledge, animal expertise, horsemanship, tracking) and the general context of his people's history (fading due to colonial advancement) are entirely consistent with the experiences described in his backstory. The novel's silence on certain points does not equate to contradiction, and the plausible nature of the claims aligns well with Thalcave's portrayal."
+    },
+    {
+      "id": 74,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Before each fight he studied the crack-patterns of his mother\u2019s shark-tooth necklace by moonlight to...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The novel excerpts are entirely silent regarding the character Kai-Koumou and all specific elements of their backstory. There are no direct contradictions, timeline impossibilities, or character trait conflicts with the provided text. Given that the claims are plausible within the adventurous and culturally diverse setting of a Jules Verne novel, and no evidence disproves them, the backstory is considered consistent."
+    },
+    {
+      "id": 35,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "The mutiny began when Captain Grant uncovered his forged logbook and threatened to report him; \u201cmaro...",
+      "prediction": 0,
+      "actual": 0,
+      "correct": true,
+      "rationale": "The character backstory is inconsistent with the novel. The novel explicitly states that Captain Grant *landed* (marooned) Ayrton on the west coast of Australia on April 8, 1862, following Ayrton's mutiny attempt. This directly contradicts the backstory's claim that Ayrton marooned Captain Grant. Furthermore, Captain Grant was later shipwrecked on Tabor Island on June 27, 1862, nearly two months after Ayrton was put ashore, making it impossible for Ayrton to have locked him in a lifeboat during the initial mutiny."
+    },
+    {
+      "id": 18,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He once found bribery entries in his father\u2019s old ledgers, reported them, and saw his father\u2019s colle...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The character backstory is inconsistent with the novel because Paganel's described personality and his consistently amiable and comfortable interactions with Lord and Lady Glenarvan (who are explicitly members of the \"upper nobility\") directly contradict the claim that he is \"wary of the upper nobility.\" His behavior throughout the excerpts shows no signs of such wariness."
+    },
+    {
+      "id": 31,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "He rescued the indigenous elder Yurook from colonists and gained tribal protection, learning bush tr...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The character backstory is fundamentally inconsistent with the novel. Ayrton's own account in the novel explicitly states he was a \"prisoner of a native tribe\" and endured \"painful slavery\" for two years, eventually escaping. This directly contradicts the backstory's claims that he rescued an indigenous elder, gained tribal protection, and secretly mapped settler outposts. The novel portrays his relationship with the natives as one of captivity and escape, not alliance or heroism."
+    },
+    {
+      "id": 68,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At ten, migrating with his clan, a flame-shaped birth-mark on his forehead convinced elders he was t...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The character backstory is inconsistent with the novel due to a significant geographical and zoological contradiction. Kai-Koumou is explicitly established as a Maori chief from New Zealand, making the presence of a European bison in his youth, as described in the backstory, impossible within the novel's world."
+    },
+    {
+      "id": 9,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He accidentally slipped a farewell letter to his French sweetheart into an academic report; the roma...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The character backstory is entirely consistent with the novel's portrayal of Jacques Paganel. While the specific event of the letter and report is not explicitly mentioned, it aligns perfectly with his established character traits of extreme absent-mindedness and his high standing as a distinguished geographer whose academic reports are praised. There are no direct contradictions, timeline impossibilities, or character trait conflicts."
+    },
+    {
+      "id": 84,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "In a skirmish at a British outpost friendly fire killed several of his comrades; he took bones from ...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The character backstory for Kai-Koumou is inconsistent with the novel. The claim that he \"sealed his emotions\" is directly contradicted by multiple instances in the text where he displays intense rage, exultation, and regret. Furthermore, the nature of the \"tokens\" he supposedly took (bones from comrades) conflicts with the novel's description of his tribe's custom of collecting enemy heads as trophies. The context of a \"friendly fire\" incident at a \"British outpost\" for a Maori chief fighting the English is also not supported and seems incongruous with his established role."
+    },
+    {
+      "id": 83,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At eighteen, on the run in Tasmania, he met the escaped convict Ayrton hiding in the bush; the two f...",
+      "prediction": 0,
+      "actual": 0,
+      "correct": true,
+      "rationale": "The character backstory for Kai-Koumou (assumed to be Ayrton/Ben Joyce from the novel) is highly inconsistent with the novel's account of Ayrton's past. The backstory places him in Tasmania at age eighteen, meeting another escaped convict named Ayrton. The novel explicitly states Ayrton (the character) was landed on the west coast of Australia (near Perth) in 1862 after a mutiny, was described as \"about forty-five,\" and joined a *band* of convicts, becoming their chief, Ben Joyce. These are direct contradictions regarding location, age, and the circumstances of his criminal association."
+    },
+    {
+      "id": 67,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Born on New Zealand\u2019s North-island east coast to a Maori war-chief father and a priestess mother ski...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "An ambush by a British musket squad is entirely consistent with the depicted historical context of warfare. \n- Claim 5: **SUPPORTS** because the novel describes the Maori practice of taking trophies from enemies, specifically mentioning \"the heads that ornamented the stakes of the second inclosure\" in Kai-Koumou's pah, and that \"more than one English skull had served to increase the size of the chief's collection\" (Excerpt 2).  This establishes a cultural practice of mutilation and trophy-taking in warfare, making the specific detail of an ear taken"
+    }
+  ]
+}

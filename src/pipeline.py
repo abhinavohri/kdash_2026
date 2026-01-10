@@ -319,7 +319,18 @@ class KDSHPipeline:
         import os
         
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        exp_name = f"topk{self.config.retrieval.top_k}_chunk{self.config.chunking.chunk_size}"
+        
+        # Build experiment name with all relevant settings
+        exp_parts = [f"topk{self.config.retrieval.top_k}"]
+        if self.config.retrieval.use_reranking:
+            exp_parts.append("rerank")
+        if self.config.retrieval.use_hybrid:
+            exp_parts.append("hybrid")
+        if self.config.llm.prompt_strategy != "base":
+            exp_parts.append(self.config.llm.prompt_strategy)
+        exp_parts.append(f"chunk{self.config.chunking.chunk_size}")
+        
+        exp_name = "_".join(exp_parts)
         filename = f"experiments/exp_{timestamp}_{exp_name}.json"
         
         os.makedirs("experiments", exist_ok=True)
@@ -330,7 +341,10 @@ class KDSHPipeline:
                 'rows': int(total_count),
                 'books': indexed_books,
                 'model': self.config.llm.model,
+                'prompt_strategy': self.config.llm.prompt_strategy,
                 'top_k': self.config.retrieval.top_k,
+                'use_hybrid': self.config.retrieval.use_hybrid,
+                'use_reranking': self.config.retrieval.use_reranking,
                 'chunk_size': self.config.chunking.chunk_size,
                 'chunk_strategy': self.config.chunking.strategy
             },
