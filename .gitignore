@@ -1,0 +1,38 @@
+# Python
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.csv
+!Dataset/*.csv
+results*.csv
+eval_results*.csv
+
+# Logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
