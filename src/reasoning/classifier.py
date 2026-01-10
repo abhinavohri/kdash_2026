@@ -37,6 +37,10 @@ class ConsistencyClassifier:
         
         if llm_provider:
             self.llm = llm_provider
+        elif self.config.use_nli:
+            # Use NLI for direct contradiction detection
+            from ..models.nli_classifier import get_nli_classifier
+            self.llm = get_nli_classifier()
         elif self.config.use_local:
             # Use Ollama for local inference
             from ..models.ollama_llm import get_ollama_llm
@@ -45,8 +49,13 @@ class ConsistencyClassifier:
             # Use cloud API (Gemini)
             self.llm = get_llm_provider(config)
         
-        model_name = self.config.local_model if self.config.use_local else self.config.model
-        logger.info(f"Initialized ConsistencyClassifier with model={model_name} (local={self.config.use_local})")
+        if self.config.use_nli:
+            model_name = "NLI (DeBERTa)"
+        elif self.config.use_local:
+            model_name = self.config.local_model
+        else:
+            model_name = self.config.model
+        logger.info(f"Initialized ConsistencyClassifier with model={model_name}")
     
     def classify(
         self,

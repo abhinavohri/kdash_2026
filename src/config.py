@@ -55,6 +55,9 @@ class LLMConfig:
     # Local model settings
     use_local: bool = False  # Use Ollama instead of API
     local_model: str = "llama3.2"  # Ollama model name
+    
+    # NLI-based classification
+    use_nli: bool = False  # Use NLI model instead of LLM for classification
 
 
 @dataclass

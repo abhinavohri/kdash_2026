@@ -128,6 +128,11 @@ Examples:
         default="llama3.2",
         help="Ollama model to use (default: llama3.2). Pull with: ollama pull <model>"
     )
+    parser.add_argument(
+        "--nli",
+        action="store_true",
+        help="Use NLI model for classification instead of LLM (runs locally, no API needed)"
+    )
     
     return parser.parse_args()
 
@@ -176,6 +181,11 @@ def main():
         config.llm.use_local = True
         config.llm.local_model = args.local_model
         logger.info(f"Using local model: {args.local_model} (Ollama)")
+    
+    # NLI-based classification
+    if args.nli:
+        config.llm.use_nli = True
+        logger.info("Using NLI model for classification (DeBERTa)")
     
     # Create pipeline
     pipeline = KDSHPipeline(config)
