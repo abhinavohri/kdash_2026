@@ -37,9 +37,9 @@ class LLMConfig:
     min_contradictions: int = 2
     use_llm_fallback: bool = True
     
-    # Canonical backstory approach
-    use_canonical: bool = False  # If True, use pre-generated canonical backstories for classification
-    canonical_mode: str = "embedding"  # "embedding" (fast, no LLM) or "llm" (accurate, compares with LLM)
+    # Canonical backstory approach (DEFAULT - better accuracy)
+    use_canonical: bool = True  # Use pre-generated canonical backstories for classification
+    canonical_mode: str = "llm"  # "embedding" (fast, no LLM) or "llm" (accurate, compares with LLM)
 
 
 @dataclass

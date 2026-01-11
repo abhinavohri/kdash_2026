@@ -246,10 +246,27 @@ class KDSHPipeline:
         all_backstories = self.store.get_all_canonical_backstories()
         logger.info(f"Total canonical backstories: {len(all_backstories)}")
     
+    def _ensure_canonical_backstories(self):
+        """Ensure canonical backstories exist, generate if missing."""
+        # First ensure books are indexed
+        self.index_books()
+        
+        # Check if canonical backstories exist
+        existing = self.store.get_all_canonical_backstories()
+        
+        if not existing:
+            logger.info("No canonical backstories found - generating automatically...")
+            self.generate_canonical_backstories()
+        else:
+            logger.info(f"Found {len(existing)} existing canonical backstories")
+    
     @property
     def canonical_classifier(self):
-        """Get canonical backstory classifier (lazy initialized)."""
+        """Get canonical backstory classifier (lazy initialized with auto-generation)."""
         if not hasattr(self, '_canonical_classifier') or self._canonical_classifier is None:
+            # Auto-generate backstories if needed when canonical mode is used
+            self._ensure_canonical_backstories()
+            
             from .reasoning.backstory_classifier import CanonicalBackstoryClassifier
             self._canonical_classifier = CanonicalBackstoryClassifier(
                 config=self.config.llm,
