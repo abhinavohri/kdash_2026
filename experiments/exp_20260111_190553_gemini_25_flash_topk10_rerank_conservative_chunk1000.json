@@ -1,0 +1,136 @@
+{
+  "run_info": {
+    "timestamp": "20260111_190553",
+    "rows": 10,
+    "books": [
+      "In search of the castaways",
+      "The Count of Monte Cristo"
+    ],
+    "model": "gemini-2.5-flash",
+    "prompt_strategy": "conservative",
+    "top_k": 10,
+    "use_hybrid": false,
+    "use_reranking": true,
+    "chunk_size": 1000,
+    "chunk_strategy": "fixed_overlap"
+  },
+  "metrics": {
+    "total_samples": 10,
+    "correct": 5,
+    "accuracy": 0.5,
+    "by_label": {
+      "inconsistent": {
+        "total": 5,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "consistent": {
+        "total": 5,
+        "correct": 5,
+        "accuracy": 1.0
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": 46,
+      "book_name": "In Search of the Castaways",
+      "character": "Thalcave",
+      "backstory": "Thalcave\u2019s people faded as colonists advanced; his father, last of the tribal guides, knew the pampa...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "Moderate similarity (0.77) to canonical - no clear contradiction found"
+    },
+    {
+      "id": 137,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Faria",
+      "backstory": "Suspected again in 1815, he was re-arrested and shipped to the Ch\u00e2teau d\u2019If, this time for life....",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
+    },
+    {
+      "id": 74,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Before each fight he studied the crack-patterns of his mother\u2019s shark-tooth necklace by moonlight to...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "Moderate similarity (0.56) to canonical - no clear contradiction found"
+    },
+    {
+      "id": 109,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Noirtier",
+      "backstory": "Villefort\u2019s drift toward the royalists disappointed him; father and son argued politics at every fam...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "Moderate similarity (0.70) to canonical - no clear contradiction found"
+    },
+    {
+      "id": 104,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Noirtier",
+      "backstory": "His parents were targeted in a reprisal for supporting the Revolution; his mother was killed, deepen...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "Moderate similarity (0.57) to canonical - no clear contradiction found"
+    },
+    {
+      "id": 35,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "The mutiny began when Captain Grant uncovered his forged logbook and threatened to report him; \u201cmaro...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "Moderate similarity (0.69) to canonical - no clear contradiction found"
+    },
+    {
+      "id": 18,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He once found bribery entries in his father\u2019s old ledgers, reported them, and saw his father\u2019s colle...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "Moderate similarity (0.54) to canonical - no clear contradiction found"
+    },
+    {
+      "id": 31,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "He rescued the indigenous elder Yurook from colonists and gained tribal protection, learning bush tr...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "Moderate similarity (0.61) to canonical - no clear contradiction found"
+    },
+    {
+      "id": 83,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At eighteen, on the run in Tasmania, he met the escaped convict Ayrton hiding in the bush; the two f...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
+    },
+    {
+      "id": 112,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Noirtier",
+      "backstory": "Through underground circles he met the Count of Monte Cristo and fed the avenger vital information, ...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "Moderate similarity (0.67) to canonical - no clear contradiction found"
+    }
+  ]
+}

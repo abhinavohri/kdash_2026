@@ -1,6 +1,6 @@
 {
   "run_info": {
-    "timestamp": "20260111_192237",
+    "timestamp": "20260111_190738",
     "rows": 80,
     "books": [
       "In search of the castaways",
@@ -16,18 +16,18 @@
   },
   "metrics": {
     "total_samples": 80,
-    "correct": 47,
-    "accuracy": 0.5875,
+    "correct": 51,
+    "accuracy": 0.6375,
     "by_label": {
       "inconsistent": {
         "total": 29,
-        "correct": 9,
-        "accuracy": 0.3103448275862069
+        "correct": 0,
+        "accuracy": 0.0
       },
       "consistent": {
         "total": 51,
-        "correct": 38,
-        "accuracy": 0.7450980392156863
+        "correct": 51,
+        "accuracy": 1.0
       }
     }
   },
@@ -40,7 +40,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory provides additional details about Thalcave's family and upbringing, but these details do not contradict any facts in the canonical backstory. In fact, the input backstory can be seen as a subset of the canonical backstory, which mentions that Thalcave is a Patagonian native with extensive knowledge of local geography and animal ways."
+      "rationale": "Moderate similarity (0.77) to canonical - no clear contradiction found"
     },
     {
       "id": 137,
@@ -50,7 +50,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in two aspects:"
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
     },
     {
       "id": 74,
@@ -60,7 +60,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory states that \"Before each fight he studied the crack-patterns of his mother\u2019s shark-tooth necklace by moonlight to divine the outcome.\" This contradicts the canonical backstory, which describes Kai-Koumou as a deeply superstitious individual who adheres to Maori customs regarding death and the sacred taboo. The input adds a new detail about Kai-Koumou's pre-fight ritual that is not present in the canonical backstory."
+      "rationale": "Moderate similarity (0.56) to canonical - no clear contradiction found"
     },
     {
       "id": 109,
@@ -70,7 +70,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. In the canonical backstory, Noirtier is described as a Bonapartist and takes an active role in supporting Napoleon's return during the Bourbon Restoration. However, the input backstory states that Villefort's drift toward the royalists disappointed him, implying that Noirtier was not supportive of his son's political views."
+      "rationale": "Moderate similarity (0.70) to canonical - no clear contradiction found"
     },
     {
       "id": 104,
@@ -80,7 +80,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one aspect. In the canonical backstory, Noirtier's parents were not mentioned as being targeted in a reprisal for supporting the Revolution. The input adds new details that are not present in the canonical narrative."
+      "rationale": "Moderate similarity (0.57) to canonical - no clear contradiction found"
     },
     {
       "id": 35,
@@ -90,7 +90,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in two key points:"
+      "rationale": "Moderate similarity (0.69) to canonical - no clear contradiction found"
     },
     {
       "id": 18,
@@ -100,7 +100,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it adds a new detail that is not present in the canonical backstory, which is the discovery of bribery entries in his father's old ledgers and reporting them, leading to his father's colleague being dismissed."
+      "rationale": "Moderate similarity (0.54) to canonical - no clear contradiction found"
     },
     {
       "id": 31,
@@ -110,7 +110,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. According to the canonical backstory, Tom Ayrton (Ben Joyce) was a notorious outlaw who orchestrated a betrayal of Lord Glenarvan's expedition by poisoning their oxen and horses with gastrolobium. However, the input backstory states that he \"rescued the indigenous elder Yurook from colonists and gained tribal protection,\" which is not mentioned in the canonical backstory."
+      "rationale": "Moderate similarity (0.61) to canonical - no clear contradiction found"
     },
     {
       "id": 68,
@@ -120,7 +120,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Specifically:"
+      "rationale": "Moderate similarity (0.61) to canonical - no clear contradiction found"
     },
     {
       "id": 9,
@@ -130,7 +130,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory states that Jacques Paganel accidentally slipped a farewell letter to his French sweetheart into an academic report. However, the canonical backstory does not mention this incident at all."
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 84,
@@ -140,7 +140,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one aspect. In the canonical backstory, Kai-Koumou is described as a skilled warrior and canoe guide who maintains his reason and control even amidst the frenzied rituals of his tribe. However, the input backstory states that friendly fire killed several comrades during a skirmish at a British outpost, causing Kai-Koumou to take bones from their bodies as tokens and swear to shield the survivors."
+      "rationale": "Moderate similarity (0.60) to canonical - no clear contradiction found"
     },
     {
       "id": 83,
@@ -150,17 +150,17 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Here are the key discrepancies:"
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 134,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "After graduation a secret society enlisted him as strategist and propagandist in a campaign against ...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Specifically:"
+      "correct": true,
+      "rationale": "Moderate similarity (0.55) to canonical - no clear contradiction found"
     },
     {
       "id": 88,
@@ -170,7 +170,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Specifically:"
+      "rationale": "Moderate similarity (0.69) to canonical - no clear contradiction found"
     },
     {
       "id": 67,
@@ -180,17 +180,17 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory introduces new information about Kai-Koumou's family background and physical appearance, which are not present in the canonical backstory. While some similarities exist between the two backstories, the differences outweigh the similarities, leading to a conclusion of inconsistency."
+      "rationale": "Moderate similarity (0.73) to canonical - no clear contradiction found"
     },
     {
       "id": 112,
       "book_name": "The Count of Monte Cristo",
       "character": "Noirtier",
       "backstory": "Through underground circles he met the Count of Monte Cristo and fed the avenger vital information, ...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 0,
-      "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Specifically:"
+      "correct": false,
+      "rationale": "Moderate similarity (0.67) to canonical - no clear contradiction found"
     },
     {
       "id": 79,
@@ -200,7 +200,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory provides new details not present in the canonical backstory. Specifically, it mentions that Kai-Koumou performs a \"Blood-and-Bone\" rite by lifting fragments of his mother's burnt bones to his lips to \"breathe in her spirit.\" This ritual is not mentioned in the canonical backstory."
+      "rationale": "Moderate similarity (0.61) to canonical - no clear contradiction found"
     },
     {
       "id": 55,
@@ -210,7 +210,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory provides new information about Thalcave's past role with a British Geographical Society expedition, which is not present in the canonical backstory. However, this does not contradict any existing facts in the canonical narrative. Instead, it adds to our understanding of Thalcave's character and background."
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
     },
     {
       "id": 12,
@@ -220,7 +220,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory states that Jacques Paganel declined to take part in charting the maiden voyage of the Britannia and filled three diary pages with the sentence \u201cI could have prevented it.\u201d However, according to the canonical backstory, there is no mention of Paganel declining to participate in charting the Britannia or having a specific experience related to this event."
+      "rationale": "Moderate similarity (0.56) to canonical - no clear contradiction found"
     },
     {
       "id": 13,
@@ -230,7 +230,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one aspect. According to the canonical backstory, Jacques Paganel's mother is not mentioned at all. However, the input backstory states that his deference to Lady Glenarvan echoes the tangled feelings he had once held for his mother."
+      "rationale": "Moderate similarity (0.69) to canonical - no clear contradiction found"
     },
     {
       "id": 102,
@@ -240,7 +240,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory states that Noirtier \"acted as a militant republican\" during the Revolution, which contradicts the canonical backstory's description of him as one of the \"most fiery Jacobins\". The term \"Jacobin\" is often associated with the more radical and extreme faction within the French Revolution, whereas being described as a \"militant republican\" suggests a more moderate or conservative stance. This discrepancy indicates that the input backstory is INCONSISTENT with the canonical backstory."
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
     },
     {
       "id": 92,
@@ -250,7 +250,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. In the canonical backstory, Noirtier is described as a Bonapartist who takes a leading part in every Bonapartist conspiracy during the Bourbon Restoration. However, the input backstory states that Noirtier publicly burned the Saint-M\u00e9ran betrothal contract (1804) to prevent his son G\u00e9rard (Villefort) from marrying into the old aristocracy."
+      "rationale": "Moderate similarity (0.74) to canonical - no clear contradiction found"
     },
     {
       "id": 1,
@@ -260,17 +260,17 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. According to the canonical backstory, Jacques Paganel was a distinguished French geographer who dedicated twenty years of his life to the study of geography and had extensive international connections. In contrast, the input backstory states that Paganel fell in love with geography at twelve after reading Captain Cook's nautical journal, which is significantly earlier than the age mentioned in the canonical backstory."
+      "rationale": "Moderate similarity (0.73) to canonical - no clear contradiction found"
     },
     {
       "id": 11,
       "book_name": "In Search of the Castaways",
       "character": "Jacques Paganel",
       "backstory": "One night he saw first mate Ayrton secretly meet slave-traders; while shadowing them he was slashed ...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 0,
-      "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one significant detail. According to the canonical backstory, Jacques Paganel was not slashed across his left forearm with a dagger by slave-traders while shadowing them. This event is entirely new and not mentioned in the canonical backstory, which provides extensive details about Paganel's life, education, and career."
+      "correct": false,
+      "rationale": "Moderate similarity (0.58) to canonical - no clear contradiction found"
     },
     {
       "id": 65,
@@ -280,7 +280,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it provides additional details about Thalcave's skills and abilities as a guide, such as handling canoe, coast, and jungle with ease, which is consistent with his portrayal in the novel."
+      "rationale": "Moderate similarity (0.58) to canonical - no clear contradiction found"
     },
     {
       "id": 107,
@@ -290,7 +290,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. According to the canonical backstory, Noirtier was a staunch Bonapartist and played an active role in every Bonapartist conspiracy during the Bourbon Restoration. However, the input backstory states that Napoleon's triumph at Waterloo ended his hopes, and he withdrew from active plotting and turned to family affairs."
+      "rationale": "Moderate similarity (0.60) to canonical - no clear contradiction found"
     },
     {
       "id": 66,
@@ -300,7 +300,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects."
+      "rationale": "Moderate similarity (0.72) to canonical - no clear contradiction found"
     },
     {
       "id": 89,
@@ -310,7 +310,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it adds a new detail that is not present in the canonical narrative, which is the experience of being driven from the inner circle at Louis XVI's trial for arguing for procedural justice."
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
     },
     {
       "id": 34,
@@ -320,7 +320,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "input backstory does not introduce any contradictions or conflicting information with the canonical backstory. Therefore, it is considered a subset of the canonical narrative and is deemed consistent."
+      "rationale": "Moderate similarity (0.64) to canonical - no clear contradiction found"
     },
     {
       "id": 99,
@@ -330,27 +330,27 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not provide new details that are not present in the canonical backstory. However, it contradicts a key fact in the canonical backstory."
+      "rationale": "Moderate similarity (0.58) to canonical - no clear contradiction found"
     },
     {
       "id": 123,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "In Rome he and Noirtier de Villefort studied Napoleon\u2019s secret letters together, then quarrelled ove...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several ways. Firstly, it states that Faria and Noirtier de Villefort studied Napoleon's secret letters together, which is not mentioned in the canonical backstory. Secondly, it implies that they quarrelled over whether to publish their contents, but this is also not mentioned in the canonical backstory."
+      "correct": true,
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 116,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "In Lisbon he backed constitutionalist Prince Pedro, was branded a Jacobin plotter out to poison King...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 0,
-      "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Specifically:"
+      "correct": false,
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 43,
@@ -360,27 +360,27 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory does not introduce any new information or contradict the established facts in the canonical backstory. It provides a plausible continuation of Ayrton's story, making it a consistent addition to the narrative."
+      "rationale": "Moderate similarity (0.61) to canonical - no clear contradiction found"
     },
     {
       "id": 108,
       "book_name": "The Count of Monte Cristo",
       "character": "Noirtier",
       "backstory": "He married a gentle apolitical woman, hoping domestic peace would replace political strife, and pinn...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several key points. Specifically:"
+      "correct": true,
+      "rationale": "Moderate similarity (0.66) to canonical - no clear contradiction found"
     },
     {
       "id": 128,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "His invisible-ink formula came from temple-mural restoration in India, first used to rescue local ep...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several ways:"
+      "correct": true,
+      "rationale": "Moderate similarity (0.52) to canonical - no clear contradiction found"
     },
     {
       "id": 29,
@@ -390,7 +390,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contain any contradictions with the canonical backstory."
+      "rationale": "Moderate similarity (0.57) to canonical - no clear contradiction found"
     },
     {
       "id": 69,
@@ -400,7 +400,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Here are the key discrepancies:"
+      "rationale": "Moderate similarity (0.68) to canonical - no clear contradiction found"
     },
     {
       "id": 50,
@@ -410,7 +410,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it adds new details that are not present in the novel, such as Thalcave saving an old shepherd bitten by a viper and receiving a secret map of pampas water-holes from him."
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 5,
@@ -420,7 +420,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one aspect. According to the canonical backstory, Jacques Paganel was a renowned geographer who had dedicated twenty years of his life to studying geography and held various prestigious positions. In contrast, the input backstory states that during an Algerian geological survey, Paganel shielded a box of specimens from a sandstorm, was struck on the head, and afterwards often mixed up dates and directions."
+      "rationale": "Moderate similarity (0.61) to canonical - no clear contradiction found"
     },
     {
       "id": 39,
@@ -430,7 +430,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in two aspects:"
+      "rationale": "Moderate similarity (0.63) to canonical - no clear contradiction found"
     },
     {
       "id": 19,
@@ -440,17 +440,17 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it provides additional information that is not present in the novel, such as Paganel's experience on a Mediterranean merchant fleet and his learning of basic seamanship and celestial navigation."
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
     },
     {
       "id": 113,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "Born in Parma to a theological family\u2014his father studied ancient manuscripts, his mother wrote poetr...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 0,
-      "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one key detail: Faria's birthplace. The canonical backstory states that Faria was born in Rome, while the input backstory claims he was born in Parma. This is a direct contradiction, as it changes the fundamental fact about Faria's origin."
+      "correct": false,
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
     },
     {
       "id": 139,
@@ -460,7 +460,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it adds a new layer of depth to Faria's character by highlighting his Enlightenment ideals and how they influenced him even during his imprisonment. The input backstory is also a subset of the canonical backstory, as it mentions Faria's tutelage under Cardinal Spada, which is mentioned in the canonical backstory."
+      "rationale": "Moderate similarity (0.54) to canonical - no clear contradiction found"
     },
     {
       "id": 71,
@@ -470,7 +470,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Here are the key contradictions:"
+      "rationale": "Moderate similarity (0.65) to canonical - no clear contradiction found"
     },
     {
       "id": 26,
@@ -480,17 +480,17 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory provides new details not present in the canonical backstory. Specifically, it introduces a father who was transported for smuggling and an orphanage where nuns pilfered relief supplies. These details contradict the canonical backstory, which states that Tom Ayrton's real name was Tom Ayrton, began his known career as an able seaman and quartermaster on the brig Britannia of Glasgow."
+      "rationale": "Moderate similarity (0.61) to canonical - no clear contradiction found"
     },
     {
       "id": 117,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "While escaping he hid lifetime research manuscripts in a Madeira monastery cellar\u2014the eventual clue ...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 0,
-      "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. According to the novel, Abb\u00e9 Faria was arrested at Piombino, Italy in 1811 due to a hereditary illness that also claimed his father and grandfather."
+      "correct": false,
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 6,
@@ -500,7 +500,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it adds a new detail that is not present in the canonical backstory, which is the meeting between Jacques Paganel and young Captain Grant at a Marseille waterfront bar. This event is not mentioned in the canonical backstory, but it does not contradict any information provided."
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 76,
@@ -510,7 +510,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one aspect. According to the canonical backstory, Kai-Koumou is a skilled warrior and canoe guide, but it does not mention him carrying a European pocket-watch or having a lock of Julia's hair."
+      "rationale": "Moderate similarity (0.61) to canonical - no clear contradiction found"
     },
     {
       "id": 17,
@@ -520,7 +520,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in one aspect. According to the canonical backstory, Jacques Paganel was educated by notable figures like Fr\u00e9zier, Molina, Humboldt, and Miers, which contributed to his \"unerring memory\" for geographical facts. However, the input backstory states that Paganel grew up fluent in English and French due to his mother's remarriage to a French officer, but does not mention any specific educational influences."
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
     },
     {
       "id": 20,
@@ -530,7 +530,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory states that Jacques Paganel was injured after a failed attempt to save a drowning comrade and received praise from the naval commander upon recovery. However, this contradicts the canonical backstory, which does not mention any injury or rescue attempt by Paganel."
+      "rationale": "Moderate similarity (0.55) to canonical - no clear contradiction found"
     },
     {
       "id": 10,
@@ -540,27 +540,27 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it adds a new detail that is not present in the canonical backstory, which is the expulsion from British colonists while recording dialects along the Murray River. This new detail does not contradict or contradict any existing information in the canonical backstory."
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 122,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "At a Vienna-congress salon he briefly watched young prosecutor Villefort tamper with evidence agains...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 0,
-      "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in several ways. Firstly, it introduces Villefort as a character who is not present in the canonical backstory. Additionally, the input suggests that Faria was watching Villefort tamper with evidence at a Vienna-congress salon, which is not mentioned in the canonical backstory."
+      "correct": false,
+      "rationale": "Moderate similarity (0.58) to canonical - no clear contradiction found"
     },
     {
       "id": 62,
       "book_name": "In Search of the Castaways",
       "character": "Thalcave",
       "backstory": "Loss turned him taciturn, acting more than speaking; he felt deep pity for sufferers and stayed calm...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects."
+      "correct": true,
+      "rationale": "Moderate similarity (0.55) to canonical - no clear contradiction found"
     },
     {
       "id": 36,
@@ -570,7 +570,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory provides new details about Tom Ayrton/Ben Joyce's character but does not contradict any established facts from the canonical backstory."
+      "rationale": "Moderate similarity (0.52) to canonical - no clear contradiction found"
     },
     {
       "id": 73,
@@ -580,7 +580,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects."
+      "rationale": "Moderate similarity (0.57) to canonical - no clear contradiction found"
     },
     {
       "id": 98,
@@ -590,7 +590,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory provides new details that contradict the canonical backstory. Specifically, it states that \"Hidden Waterloo-era diplomatic letters in his study ensured that political foes dared not silence him,\" which implies that Noirtier was still active and influential after his stroke, whereas the canonical backstory describes him as being paralyzed and unable to speak."
+      "rationale": "Moderate similarity (0.66) to canonical - no clear contradiction found"
     },
     {
       "id": 25,
@@ -600,17 +600,17 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it adds new details that are not present in the canonical narrative. The input mentions a meeting with ex-General von Wallace and obtaining notes on South-American inland geography and native customs, which is not mentioned in the canonical backstory."
+      "rationale": "Moderate similarity (0.69) to canonical - no clear contradiction found"
     },
     {
       "id": 120,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "He invented a \u201csalt-blood\u201d ink that revealed under heat, used it to help a Corsican patriot escape, ...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several ways. Specifically:"
+      "correct": true,
+      "rationale": "Moderate similarity (0.58) to canonical - no clear contradiction found"
     },
     {
       "id": 105,
@@ -620,7 +620,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory states that Noirtier became head of a clandestine anti-Bonaparte society, organizing underground actions to sap the Emperor's support. However, according to the canonical backstory, Noirtier was actually a staunch Bonapartist and played a leading part in every Bonapartist conspiracy during the Bourbon Restoration."
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 57,
@@ -630,7 +630,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Specifically:"
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
     },
     {
       "id": 106,
@@ -640,7 +640,7 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it adds a new detail about Noirtier meeting Fernand at a society meeting and using his military information to exploit him."
+      "rationale": "Moderate similarity (0.71) to canonical - no clear contradiction found"
     },
     {
       "id": 118,
@@ -650,17 +650,17 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in two key points:"
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 126,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "His sister was burned as a witch for spurning a nobleman; the injustice fed a lifelong hatred of ins...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several ways. Firstly, it introduces a new detail about Faria's sister being burned as a witch, which is not present in the canonical backstory. This adds new information that is not supported by the original novel."
+      "correct": true,
+      "rationale": "Moderate similarity (0.53) to canonical - no clear contradiction found"
     },
     {
       "id": 4,
@@ -670,27 +670,27 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory states that Jacques Paganel was thrown out of a lecture after shouting \"The secret is on the 37th southern parallel!\" while the professor explained Earth's equatorial bulge. However, according to the canonical backstory, there is no mention of this event or any similar incident involving Paganel."
+      "rationale": "Moderate similarity (0.57) to canonical - no clear contradiction found"
     },
     {
       "id": 125,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "In India he watched British troops crush a rising; to spare the rebel leader further torture he gave...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several ways:"
+      "correct": true,
+      "rationale": "Moderate similarity (0.50) to canonical - no clear contradiction found"
     },
     {
       "id": 40,
       "book_name": "In Search of the Castaways",
       "character": "Tom Ayrton/Ben Joyce",
       "backstory": "Skilled in shipboard medicine, he secretly stitched soldiers\u2019 wounds yet distrusted shipmates, keepi...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory introduces new details that contradict a fact in the canonical backstory, making it inconsistent with the original narrative."
+      "correct": true,
+      "rationale": "Moderate similarity (0.58) to canonical - no clear contradiction found"
     },
     {
       "id": 96,
@@ -700,27 +700,27 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it provides additional details that are not present in the novel."
+      "rationale": "Moderate similarity (0.63) to canonical - no clear contradiction found"
     },
     {
       "id": 45,
       "book_name": "In Search of the Castaways",
       "character": "Tom Ayrton/Ben Joyce",
       "backstory": "Watching natives slaughtered in a raid re-awakened his conscience: he cached weapons, torched the tr...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 0,
-      "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. In the canonical backstory, Tom Ayrton/Ben Joyce caches weapons and raises a stone marker to record his regret and repentance after witnessing natives being slaughtered during a raid. However, this event is not mentioned in the input backstory."
+      "correct": false,
+      "rationale": "Moderate similarity (0.55) to canonical - no clear contradiction found"
     },
     {
       "id": 54,
       "book_name": "In Search of the Castaways",
       "character": "Thalcave",
       "backstory": "He briefly loved Chilean doctor Mariana, who wanted him to settle down but was refused; she died nur...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Here are the key contradictions:"
+      "correct": true,
+      "rationale": "Moderate similarity (0.60) to canonical - no clear contradiction found"
     },
     {
       "id": 8,
@@ -730,7 +730,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it adds new details that are not present in the canonical narrative, such as Jacques Paganel learning tracking techniques and herbal lore from a native tribe by sketching star-maps."
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 32,
@@ -740,7 +740,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. In the canonical backstory, Tom Ayrton/Ben Joyce is described as a \"criminal\" who was involved in a mutiny on the Britannia and later became a leader of a group of escaped convicts. However, the input backstory states that he \"steered both sides toward mutual ruin,\" which implies that he actively worked to destroy both the tribe and the settlers, rather than simply being a part of a group that did so."
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
     },
     {
       "id": 14,
@@ -750,17 +750,17 @@
       "prediction": 1,
       "actual": 0,
       "correct": false,
-      "rationale": "The input backstory states that Jacques Paganel and Major MacNabb shared a mutual recognition among the Charr\u00faa, confirmed by exchanging certain hand signs. However, this contradicts the canonical backstory, which does not mention any such encounter or exchange of hand signs between Paganel and MacNabb."
+      "rationale": "Moderate similarity (0.62) to canonical - no clear contradiction found"
     },
     {
       "id": 63,
       "book_name": "In Search of the Castaways",
       "character": "Thalcave",
       "backstory": "With the rescue squad he learned enough nautical English to converse with Captain Horace and the sai...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 0,
-      "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one aspect. The canonical backstory states that Thalcave is a Patagonian native who learned enough nautical English to converse with Captain Horace and the sailors, indicating that he has experience with European culture and language."
+      "correct": false,
+      "rationale": "Moderate similarity (0.60) to canonical - no clear contradiction found"
     },
     {
       "id": 41,
@@ -770,17 +770,17 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it provides new details that are not present in the canonical narrative but do not alter the overall consistency of Tom Ayrton's character."
+      "rationale": "Moderate similarity (0.61) to canonical - no clear contradiction found"
     },
     {
       "id": 23,
       "book_name": "In Search of the Castaways",
       "character": "Jacques Paganel",
       "backstory": "After his mother died she entrusted him with the care of his toddler half-brother; the child was lat...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in one significant aspect. According to the canonical backstory, Jacques Paganel was a distinguished French geographer who dedicated twenty years of his life to the study of geography and had secured letters from Lord Somerset to the governor-general of India for a mission. In contrast, the input backstory states that after his mother died, she entrusted him with the care of his toddler half-brother, which was later taken to Europe by the French stepfather, leaving Paganel with a lifelong dread of \"separation by life and death.\""
+      "correct": true,
+      "rationale": "Moderate similarity (0.67) to canonical - no clear contradiction found"
     },
     {
       "id": 90,
@@ -790,7 +790,7 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one significant aspect. In the canonical backstory, Noirtier is described as a Bonapartist and an ally of Napoleon during his return to power. However, the input backstory states that Noirtier was involved in royalist intelligence gathering from the Vend\u00e9e by marrying \u00c9lo\u00efse, daughter of a ruined local noble, and arranging her \"accidental\" drowning when she secretly backed the Chouans."
+      "rationale": "Moderate similarity (0.63) to canonical - no clear contradiction found"
     },
     {
       "id": 100,
@@ -800,37 +800,37 @@
       "prediction": 1,
       "actual": 1,
       "correct": true,
-      "rationale": "The input backstory states that Noirtier \"grew up in Paris\" and \"devoured Voltaire and Rousseau\", which is a subset of the canonical backstory. However, it does not add any new details or contradict specific facts in the canonical backstory."
+      "rationale": "Moderate similarity (0.59) to canonical - no clear contradiction found"
     },
     {
       "id": 138,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "Long political warfare severed him from his family; the once-noble house declined and could offer no...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in one key aspect: Faria's family. The canonical backstory states that Faria was born into a noble house and served as the secretary to Cardinal Spada, while the input backstory claims that long political warfare severed him from his family, implying that he came from a non-noble background."
+      "correct": true,
+      "rationale": "Moderate similarity (0.54) to canonical - no clear contradiction found"
     },
     {
       "id": 130,
       "book_name": "The Count of Monte Cristo",
       "character": "Faria",
       "backstory": "What seemed an epileptic fit was in fact sudden death from years of drinking prison water laced with...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 0,
-      "correct": true,
-      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. According to the canonical backstory, Abb\u00e9 Faria suffered a cataleptic attack, which is a hereditary illness that also claimed his father and grandfather. However, the input backstory states that what seemed an epileptic fit was actually sudden death from years of drinking prison water laced with lead."
+      "correct": false,
+      "rationale": "Moderate similarity (0.61) to canonical - no clear contradiction found"
     },
     {
       "id": 48,
       "book_name": "In Search of the Castaways",
       "character": "Thalcave",
       "backstory": "Passing as a half-caste gaucho he worked on a ranch, picked up Spanish and the settlers\u2019 rules, yet ...",
-      "prediction": 0,
+      "prediction": 1,
       "actual": 1,
-      "correct": false,
-      "rationale": "The input backstory contradicts the canonical backstory in several aspects."
+      "correct": true,
+      "rationale": "Moderate similarity (0.68) to canonical - no clear contradiction found"
     }
   ]
 }

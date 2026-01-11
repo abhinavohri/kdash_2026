@@ -12,7 +12,7 @@ from typing import List, Literal
 from dataclasses import dataclass
 
 
-PromptStrategy = Literal["base", "few_shot", "cot", "claim_extraction"]
+PromptStrategy = Literal["base", "few_shot", "cot", "claim_extraction", "track_a", "conservative", "optimistic", "evidence_dossier"]
 
 
 # =============================================================================
@@ -193,24 +193,158 @@ RATIONALE: [Which claim caused the contradiction, or why all claims are plausibl
 
 
 # =============================================================================
+# EVIDENCE DOSSIER PROMPT (KDSH Problem Statement Requirements)
+# =============================================================================
+
+EVIDENCE_DOSSIER_PROMPT = """You are constructing an Evidence Dossier for the KDSH competition.
+
+## CHARACTER: {character}
+## BOOK: {book_name}
+
+## BACKSTORY TO VERIFY:
+{backstory}
+
+## AVAILABLE EVIDENCE FROM NOVEL:
+{evidence}
+
+## YOUR TASK:
+Construct a comprehensive Evidence Rationale following these STRICT requirements:
+
+### STEP 1: CLAIM DECOMPOSITION
+Split the backstory into ATOMIC claims (single verifiable facts).
+
+### STEP 2: EVIDENCE LINKAGE
+For EACH claim, search the evidence for VERBATIM passages that relate to it.
+
+### STEP 3: ANALYSIS
+For each claim-excerpt pair, provide analysis:
+- SUPPORTS: Evidence confirms the claim
+- CONTRADICTS: Evidence directly disproves the claim
+- NEUTRAL: No relevant evidence found (absence is NOT contradiction)
+
+### STEP 4: FINAL JUDGMENT
+- If ANY claim has a CONTRADICTS verdict → PREDICTION: 0
+- If ALL claims are SUPPORTS or NEUTRAL → PREDICTION: 1
+
+## OUTPUT FORMAT (REQUIRED STRUCTURE):
+
+EVIDENCE DOSSIER:
+
+CLAIM 1: "[Verbatim atomic claim from backstory]"
+EXCERPT: "[Verbatim quote from evidence, or 'No relevant passage found']"
+VERDICT: [SUPPORTS/CONTRADICTS/NEUTRAL]
+ANALYSIS: [How the excerpt constrains or refutes the claim]
+
+CLAIM 2: "[Next atomic claim]"
+EXCERPT: "[Verbatim quote from evidence]"
+VERDICT: [SUPPORTS/CONTRADICTS/NEUTRAL]
+ANALYSIS: [Explanation]
+
+[Continue for all claims...]
+
+---
+FINAL JUDGMENT:
+PREDICTION: [1 or 0]
+SUMMARY: [One sentence explaining overall consistency based on evidence]
+"""
+
+# Keep old name for backwards compatibility
+TRACK_A_PROMPT = EVIDENCE_DOSSIER_PROMPT
+
+
+# =============================================================================
+# CONSERVATIVE PROMPT (Default to Consistent)
+# =============================================================================
+
+CONSERVATIVE_PROMPT = """You are analyzing whether a character backstory is consistent with a novel.
+
+## CRITICAL INSTRUCTION:
+A backstory should be marked CONSISTENT (1) UNLESS you find EXPLICIT, DIRECT contradictions.
+- "Not mentioned" = CONSISTENT (absence of evidence is not evidence of contradiction)
+- "Could be different" = CONSISTENT (speculation is not contradiction)  
+- "Seems unlikely" = CONSISTENT (improbability is not impossibility)
+- ONLY mark INCONSISTENT (0) if the backstory DIRECTLY CONTRADICTS a specific fact in the novel
+
+## Character: {character}
+## Book: {book_name}
+
+## Backstory:
+{backstory}
+
+## Evidence from Novel:
+{evidence}
+
+## Decision Process:
+1. Read the backstory claims
+2. Check if ANY claim DIRECTLY CONTRADICTS a specific statement in the evidence
+3. If you cannot point to an EXPLICIT contradiction → answer CONSISTENT (1)
+4. Only answer INCONSISTENT (0) if you can quote the exact contradiction
+
+## Output (KEEP RATIONALE TO 1-2 LINES MAX):
+PREDICTION: [1 for consistent, 0 for inconsistent]
+RATIONALE: [1-2 sentence summary. If inconsistent, state the contradiction. If consistent, state "No contradictions found."]
+"""
+
+
+# =============================================================================
+# OPTIMISTIC PROMPT (Default consistent unless proof of contradiction)
+# =============================================================================
+
+OPTIMISTIC_PROMPT = """You are analyzing whether a character backstory is consistent with a novel.
+
+## CRITICAL INSTRUCTION - OPTIMISTIC MODE:
+You MUST default to CONSISTENT (1) unless you find EXPLICIT, UNDENIABLE proof of contradiction.
+
+The backstory is CONSISTENT (1) unless:
+- There is a DIRECT, EXPLICIT statement in the evidence that PROVES the backstory claim is false
+- The contradiction is UNAMBIGUOUS and CERTAIN (not speculative)
+
+Mark as CONSISTENT (1) if:
+- The claim is "not mentioned" in the evidence
+- The claim "could be different" but isn't proven false
+- The claim "seems unlikely" but isn't impossible
+- You're uncertain or the evidence is ambiguous
+- The claim adds details not covered in the novel
+
+ONLY mark as INCONSISTENT (0) if:
+- You can quote an EXACT passage that DIRECTLY PROVES the backstory is false
+- The contradiction is 100% certain, not just probable
+
+## Character: {character}
+## Book: {book_name}
+
+## Backstory:
+{backstory}
+
+## Evidence from Novel:
+{evidence}
+
+## Decision Process:
+1. Read the backstory claims
+2. Search for PROOF that any claim is false (not just absence of confirmation)
+3. If you cannot find EXPLICIT PROOF of contradiction → CONSISTENT (1)
+4. Only answer INCONSISTENT (0) if you have undeniable proof
+
+## Output:
+PREDICTION: [1 for consistent, 0 for inconsistent]
+RATIONALE: [If inconsistent, you MUST quote the exact proof of contradiction. If consistent, state why no proof of contradiction was found.]
+"""
+
+
+# =============================================================================
 # STRATEGY FACTORY
 # =============================================================================
 
 def get_prompt_template(strategy: PromptStrategy) -> str:
-    """
-    Get the prompt template for a given strategy.
-    
-    Args:
-        strategy: One of 'base', 'few_shot', 'cot', 'claim_extraction'
-        
-    Returns:
-        Prompt template string
-    """
     templates = {
         "base": BASE_PROMPT,
         "few_shot": FEW_SHOT_PROMPT,
         "cot": COT_PROMPT,
         "claim_extraction": CLAIM_EXTRACTION_PROMPT,
+        "track_a": TRACK_A_PROMPT,
+        "conservative": CONSERVATIVE_PROMPT,
+        "optimistic": OPTIMISTIC_PROMPT,
+        "evidence_dossier": EVIDENCE_DOSSIER_PROMPT,
     }
     
     if strategy not in templates:

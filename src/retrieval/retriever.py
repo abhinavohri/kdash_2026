@@ -96,6 +96,7 @@ class EvidenceRetriever:
         self,
         backstory: str,
         book_name: str,
+        character: Optional[str] = None,
         top_k: Optional[int] = None
     ) -> List[str]:
         """
@@ -128,28 +129,61 @@ class EvidenceRetriever:
             threshold=self.config.similarity_threshold
         )
         
+        # Filter by character if enabled and character provided
+        if self.config.filter_by_character and character:
+            filtered_results = []
+            for res in results:
+                # res is (content, score, idx, metadata)
+                meta = res[3]
+                chars_in_chunk = meta.get("characters", [])
+                
+                # Check for direct match (case sensitive usually, but data is from same source)
+                # Should prob normalize? Our extraction was simplistic substring exact match
+                if any(character in c for c in chars_in_chunk) or character in chars_in_chunk:
+                     filtered_results.append(res)
+            
+            if filtered_results:
+                logger.info(f"Filtered results by character '{character}': {len(results)} -> {len(filtered_results)}")
+                results = filtered_results
+                # If we filtered too aggressively, we might want to fallback? 
+                # For now implementing strict filter as requested.
+            else:
+                 logger.warning(f"Character filter '{character}' removed all results! Falling back to raw results.")
+                 # Fallback to prevent empty context
+        
         if not results:
             logger.warning(f"No chunks found for '{book_name}'")
             return []
         
-        # Apply hybrid search if enabled
+        # Apply hybrid search if enabled (Note: Hybrid doesn't use metadata yet)
         if self.config.use_hybrid:
             self._fit_hybrid_for_book(book_name)
             hybrid = self._get_hybrid_searcher()
             if hybrid and hybrid._fitted:
-                embedding_results = [(idx, score) for _, score, idx in results]
+                embedding_results = [(idx, score) for _, score, idx, _ in results]
                 hybrid_results = hybrid.search(backstory, embedding_results, initial_k)
                 # Reorder results based on hybrid scores
-                idx_to_result = {idx: (content, score, idx) for content, score, idx in results}
+                idx_to_result = {r[2]: r for r in results}
                 results = [idx_to_result[idx] for idx, _ in hybrid_results if idx in idx_to_result]
                 logger.info(f"Applied hybrid search, reordered {len(results)} chunks")
         
-        # Extract chunks with indices for reranking
-        chunks = [content for content, score, idx in results]
-        indices = [idx for content, score, idx in results]
+        # Extract chunks with metadata enhancement
+        chunks = []
+        indices = []
+        scores = []
         
-        # Log similarity scores
-        scores = [score for _, score, _ in results]
+        for content, score, idx, metadata in results:
+            indices.append(idx)
+            scores.append(score)
+            
+            # Prepend character context if available
+            chars = metadata.get("characters", [])
+            if chars and self.config.use_query_expansion:
+                enhanced_content = f"[Characters: {', '.join(chars)}]\n{content}"
+                chunks.append(enhanced_content)
+            else:
+                chunks.append(content)
+                
         logger.info(f"Retrieved {len(chunks)} chunks (similarity: {min(scores):.3f} - {max(scores):.3f})")
         
         # Apply reranking if enabled
@@ -197,7 +231,7 @@ class EvidenceRetriever:
             threshold=self.config.similarity_threshold
         )
         
-        return [(content, score) for content, score, idx in results]
+        return [(content, score) for content, score, idx, _ in results]
     
     def close(self):
         """Close resources."""

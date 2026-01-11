@@ -1,11 +1,8 @@
-"""
-Main pipeline orchestration for KDSH Track A.
-
-Coordinates all components: ingestion, embedding, storage, retrieval, and classification.
-"""
+"""Main pipeline orchestration for KDSH Track A."""
 
 from typing import List, Dict, Optional, Tuple
 from pathlib import Path
+import os
 import pandas as pd
 from tqdm import tqdm
 
@@ -22,23 +19,9 @@ logger = get_logger("pipeline")
 
 
 class KDSHPipeline:
-    """
-    Main pipeline for KDSH Track A.
-    
-    Orchestrates the complete flow:
-    1. Ingest and index novels (if not already indexed)
-    2. For each test case, retrieve relevant evidence
-    3. Classify consistency using LLM
-    4. Return predictions and rationales
-    """
+    """Main pipeline for KDSH Track A."""
     
     def __init__(self, config: PipelineConfig = None):
-        """
-        Initialize the pipeline.
-        
-        Args:
-            config: Pipeline configuration (uses defaults if None)
-        """
         self.config = config or PipelineConfig()
         
         logger.info("=" * 60)
@@ -49,7 +32,6 @@ class KDSHPipeline:
         logger.info(f"Chunking: {self.config.chunking.strategy} (size={self.config.chunking.chunk_size})")
         logger.info(f"Retrieval: top_k={self.config.retrieval.top_k}")
         
-        # Initialize components (lazy loading)
         self._embedder = None
         self._store = None
         self._retriever = None
@@ -57,21 +39,18 @@ class KDSHPipeline:
     
     @property
     def embedder(self):
-        """Lazy-load embedding provider."""
         if self._embedder is None:
             self._embedder = get_embedding_provider(self.config.embedding)
         return self._embedder
     
     @property
     def store(self):
-        """Lazy-load vector store."""
         if self._store is None:
             self._store = VectorStore(self.config.database)
         return self._store
     
     @property
     def retriever(self):
-        """Lazy-load evidence retriever."""
         if self._retriever is None:
             self._retriever = EvidenceRetriever(
                 embedding_provider=self.embedder,
@@ -82,7 +61,6 @@ class KDSHPipeline:
     
     @property
     def classifier(self):
-        """Lazy-load consistency classifier."""
         if self._classifier is None:
             self._classifier = ConsistencyClassifier(config=self.config.llm)
         return self._classifier
@@ -114,6 +92,20 @@ class KDSHPipeline:
         chunk_counts = {}
         chunker = get_chunker(self.config.chunking)
         
+        # Load characters for metadata tagging
+        try:
+            train_df = pd.read_csv(self.config.train_csv)
+            # Normalize character names (remove / variant names for simpler matching)
+            known_characters = set()
+            for char in train_df['char'].unique():
+                # Split "Tom Ayrton/Ben Joyce" -> ["Tom Ayrton", "Ben Joyce"]
+                parts = char.split('/')
+                known_characters.update([p.strip() for p in parts])
+            logger.info(f"Loaded {len(known_characters)} characters for metadata tagging")
+        except Exception as e:
+            logger.warning(f"Could not load characters for metadata: {e}")
+            known_characters = set()
+        
         for book_name, book_text in books.items():
             # Clear existing if force reindex
             if force_reindex:
@@ -131,10 +123,14 @@ class KDSHPipeline:
             texts_to_embed = []
             for i, content in enumerate(chunks_text):
                 if i not in indexed_indices:
+                    # simplistic character matching
+                    chars_found = [c for c in known_characters if c in content]
+                    
                     chunks_to_index.append({
                         "book_name": book_name,
                         "chunk_index": i,
-                        "content": content
+                        "content": content,
+                        "metadata": {"characters": chars_found}
                     })
                     texts_to_embed.append(content)
             
@@ -170,6 +166,98 @@ class KDSHPipeline:
         logger.info(f"Indexing complete. Total books: {len(chunk_counts)}")
         return chunk_counts
     
+    def backfill_metadata(self):
+        """Backfill metadata for existing chunks without re-indexing."""
+        logger.info("Starting metadata backfill...")
+        
+        # Load characters
+        try:
+            train_df = pd.read_csv(self.config.train_csv)
+            known_characters = set()
+            for char in train_df['char'].unique():
+                parts = char.split('/')
+                known_characters.update([p.strip() for p in parts])
+            logger.info(f"Loaded {len(known_characters)} characters to tag")
+        except Exception as e:
+            logger.error(f"Failed to load characters: {e}")
+            return
+
+        # Get all chunks
+        chunks = self.store.get_all_chunks_with_id()
+        logger.info(f"Found {len(chunks)} total chunks in database")
+        
+        updated_count = 0
+        for chunk_id, book_name, content in tqdm(chunks, desc="Backfilling"):
+            chars_found = [c for c in known_characters if c in content]
+            
+            if chars_found:
+                metadata = {"characters": chars_found}
+                self.store.update_chunk_metadata(chunk_id, metadata)
+                updated_count += 1
+                
+        logger.info(f"Backfill complete. Updated {updated_count}/{len(chunks)} chunks with metadata.")
+    
+    def generate_canonical_backstories(self, force_regenerate: bool = False):
+        """
+        Generate canonical backstories for all characters.
+        
+        Uses LLM to analyze character-specific chunks and generate
+        a canonical backstory for each character.
+        """
+        from .reasoning.backstory_generator import CanonicalBackstoryGenerator
+        from .models.llm import get_llm_provider
+        
+        logger.info("=" * 60)
+        logger.info("Generating Canonical Backstories")
+        logger.info("=" * 60)
+        
+        # Ensure books are indexed
+        self.index_books()
+        
+        # Get LLM provider
+        llm = get_llm_provider(self.config.llm)
+        
+        # Create generator
+        generator = CanonicalBackstoryGenerator(
+            config=self.config,
+            vector_store=self.store,
+            embedding_provider=self.embedder,
+            llm_provider=llm
+        )
+        
+        # Load characters from training data
+        train_df = pd.read_csv(self.config.train_csv)
+        
+        # Group characters by book
+        for book_name in train_df['book_name'].unique():
+            book_chars = train_df[train_df['book_name'] == book_name]['char'].unique()
+            normalized_book = self._normalize_book_name(book_name)
+            
+            logger.info(f"Generating backstories for '{book_name}': {list(book_chars)}")
+            
+            for character in book_chars:
+                generator.generate_for_character(
+                    book_name=normalized_book,
+                    character=character,
+                    force_regenerate=force_regenerate
+                )
+        
+        # Show summary
+        all_backstories = self.store.get_all_canonical_backstories()
+        logger.info(f"Total canonical backstories: {len(all_backstories)}")
+    
+    @property
+    def canonical_classifier(self):
+        """Get canonical backstory classifier (lazy initialized)."""
+        if not hasattr(self, '_canonical_classifier') or self._canonical_classifier is None:
+            from .reasoning.backstory_classifier import CanonicalBackstoryClassifier
+            self._canonical_classifier = CanonicalBackstoryClassifier(
+                config=self.config.llm,
+                vector_store=self.store,
+                embedding_provider=self.embedder
+            )
+        return self._canonical_classifier
+    
     def process_single(
         self,
         backstory: str,
@@ -189,8 +277,18 @@ class KDSHPipeline:
         """
         logger.info(f"Processing: {character} in {book_name}")
         
-        # Retrieve evidence
-        evidence = self.retriever.retrieve(backstory, book_name)
+        # Use canonical backstory classifier if enabled
+        if self.config.llm.use_canonical:
+            logger.info("Using canonical backstory classifier")
+            prediction, rationale = self.canonical_classifier.classify(
+                backstory=backstory,
+                book_name=book_name,
+                character=character
+            )
+            return prediction, rationale, []  # No evidence needed for canonical approach
+        
+        # Standard approach: retrieve evidence and classify
+        evidence = self.retriever.retrieve(backstory, book_name, character=character)
         
         # Classify
         prediction, rationale = self.classifier.classify(
@@ -234,7 +332,16 @@ class KDSHPipeline:
         
         # Get list of indexed books
         indexed_books = self.store.get_indexed_books()
-        logger.info(f"Indexed books: {indexed_books}")
+        
+        # Apply filter if configured (e.g. --one-book)
+        if self.config.books_filter:
+            logger.info(f"Applying book filter: {self.config.books_filter}")
+            # Normalize filter names
+            filter_norm = [self._normalize_book_name(b) for b in self.config.books_filter]
+            # Intersect with indexed books
+            indexed_books = [b for b in indexed_books if b in filter_norm]
+            
+        logger.info(f"Evaluating on books: {indexed_books}")
         
         # Load data
         df = pd.read_csv(csv_path)
@@ -245,10 +352,26 @@ class KDSHPipeline:
         df = df[df['normalized_book'].isin(indexed_books)]
         logger.info(f"Filtered to {len(df)} rows from indexed books")
         
-        # Limit rows if specified
+        # Limit rows if specified - use balanced sampling (half consistent, half inconsistent)
         if num_rows and num_rows < len(df):
-            df = df.head(num_rows)
-            logger.info(f"Evaluating first {num_rows} rows")
+            # Split by label and take equal numbers from each
+            consistent_df = df[df['label'] == 'consistent']
+            inconsistent_df = df[df['label'] != 'consistent']  # 'contradict' maps to inconsistent
+            
+            half = num_rows // 2
+            # Sample or take first N from each group
+            consistent_sample = consistent_df.head(half)
+            inconsistent_sample = inconsistent_df.head(half)
+            
+            # If odd number, add one more from whichever has more
+            if num_rows % 2 == 1:
+                if len(consistent_df) > half:
+                    consistent_sample = consistent_df.head(half + 1)
+                elif len(inconsistent_df) > half:
+                    inconsistent_sample = inconsistent_df.head(half + 1)
+            
+            df = pd.concat([consistent_sample, inconsistent_sample]).sort_index()
+            logger.info(f"Balanced evaluation: {len(consistent_sample)} consistent + {len(inconsistent_sample)} inconsistent = {len(df)} rows")
         
         # Process each row
         results = []
@@ -321,7 +444,16 @@ class KDSHPipeline:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         
         # Build experiment name with all relevant settings
-        exp_parts = [f"topk{self.config.retrieval.top_k}"]
+        # Start with model identifier
+        if self.config.llm.use_nli:
+            model_id = "nli"
+        elif self.config.llm.use_local:
+            # Clean up model name for filename (e.g., llama3.1:8b -> llama3.1_8b)
+            model_id = self.config.llm.local_model.replace(":", "_").replace(".", "")
+        else:
+            model_id = self.config.llm.model.replace("-", "_").replace(".", "")
+        
+        exp_parts = [model_id, f"topk{self.config.retrieval.top_k}"]
         if self.config.retrieval.use_reranking:
             exp_parts.append("rerank")
         if self.config.retrieval.use_hybrid:
@@ -385,50 +517,54 @@ class KDSHPipeline:
         csv_path: Optional[str] = None,
         output_path: str = "results.csv"
     ) -> str:
-        """
-        Generate results CSV for submission.
-        
-        Args:
-            csv_path: Path to test CSV (uses test.csv if None)
-            output_path: Path to write results
-            
-        Returns:
-            Path to generated results file
-        """
+        """Generate results CSV for submission. Resumable from existing progress."""
         csv_path = csv_path or self.config.test_csv
         
         logger.info("=" * 60)
         logger.info("Generating Results CSV")
         logger.info("=" * 60)
         
-        # Load test data
         df = pd.read_csv(csv_path)
-        logger.info(f"Processing {len(df)} test examples")
+        logger.info(f"Total test examples: {len(df)}")
         
-        # Ensure books are indexed
         self.index_books()
         
-        # Process each row
+        # Check for existing results to resume
+        existing_ids = set()
         results = []
+        if os.path.exists(output_path):
+            existing_df = pd.read_csv(output_path)
+            existing_ids = set(existing_df['Story ID'].tolist())
+            results = existing_df.to_dict('records')
+            logger.info(f"Resuming from {len(existing_ids)} existing results")
         
-        for idx, row in tqdm(df.iterrows(), total=len(df), desc="Processing"):
+        pending = df[~df['id'].isin(existing_ids)]
+        logger.info(f"Processing {len(pending)} remaining examples")
+        
+        for idx, row in tqdm(pending.iterrows(), total=len(pending), desc="Processing"):
             book_name = self._normalize_book_name(row['book_name'])
             
-            prediction, rationale, _ = self.process_single(
-                backstory=row['content'],
-                book_name=book_name,
-                character=row['char']
-            )
-            
-            results.append({
-                'Story ID': row['id'],
-                'Prediction': prediction,
-                'Rationale': rationale
-            })
-        
-        # Write results
-        results_df = pd.DataFrame(results)
-        results_df.to_csv(output_path, index=False)
+            try:
+                prediction, rationale, _ = self.process_single(
+                    backstory=row['content'],
+                    book_name=book_name,
+                    character=row['char']
+                )
+                
+                results.append({
+                    'Story ID': row['id'],
+                    'Prediction': prediction,
+                    'Rationale': rationale
+                })
+                
+                # Save progress after each row
+                results_df = pd.DataFrame(results)
+                results_df.to_csv(output_path, index=False)
+                
+            except Exception as e:
+                logger.error(f"Error processing row {row['id']}: {e}")
+                logger.info(f"Progress saved. Resume with same command.")
+                raise
         
         logger.info(f"Results written to {output_path}")
         return output_path

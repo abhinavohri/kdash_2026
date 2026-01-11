@@ -38,7 +38,7 @@ class NLIClassifier:
     
     def __init__(
         self,
-        model_name: str = "microsoft/deberta-v3-base-tasksource-nli",
+        model_name: str = "cross-encoder/nli-deberta-v3-small",
         device: str = None,
         contradiction_threshold: float = 0.7
     ):
@@ -154,23 +154,26 @@ class NLIClassifier:
             elif label == "entailment" and confidence >= 0.7:
                 entailments.append((i, chunk[:100], confidence))
         
-        # Decision logic
-        if contradictions:
-            # Found contradiction → INCONSISTENT
-            idx, snippet, conf = contradictions[0]
-            rationale = f"Contradiction found in evidence {idx+1} (confidence: {conf:.2f}): '{snippet}...'"
-            logger.info(f"Found {len(contradictions)} contradictions, marking INCONSISTENT")
+        # Decision logic - require STRONG contradictions
+        # Only flag as inconsistent if we have very confident contradictions
+        strong_contradictions = [c for c in contradictions if c[2] >= 0.85]
+        
+        if len(strong_contradictions) >= 2:
+            # Need at least 2 strong contradictions
+            idx, snippet, conf = strong_contradictions[0]
+            rationale = f"Multiple strong contradictions found (confidence: {conf:.2f}): '{snippet}...'"
+            logger.info(f"Found {len(strong_contradictions)} strong contradictions, marking INCONSISTENT")
             return 0, rationale
-        elif entailments:
-            # Found support → CONSISTENT
+        elif entailments and not strong_contradictions:
+            # Found support and no strong contradictions → CONSISTENT
             idx, snippet, conf = entailments[0]
             rationale = f"Backstory supported by evidence {idx+1} (confidence: {conf:.2f})"
             logger.info(f"Found {len(entailments)} supporting evidence, marking CONSISTENT")
             return 1, rationale
         else:
-            # Neutral → default to CONSISTENT (no contradiction found)
-            logger.info("No strong signal, defaulting to CONSISTENT")
-            return 1, "No clear contradiction or support found"
+            # Default to CONSISTENT (innocent until proven guilty)
+            logger.info("No strong contradictions found, defaulting to CONSISTENT")
+            return 1, "No strong contradictions detected"
     
     def classify_consistency(
         self,
@@ -184,7 +187,7 @@ class NLIClassifier:
 
 
 def get_nli_classifier(
-    model_name: str = "microsoft/deberta-v3-base-tasksource-nli",
+    model_name: str = "cross-encoder/nli-deberta-v3-small",
     contradiction_threshold: float = 0.7
 ) -> NLIClassifier:
     """

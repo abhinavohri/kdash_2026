@@ -1,0 +1,136 @@
+{
+  "run_info": {
+    "timestamp": "20260111_184949",
+    "rows": 10,
+    "books": [
+      "In search of the castaways",
+      "The Count of Monte Cristo"
+    ],
+    "model": "gemini-2.5-flash",
+    "prompt_strategy": "optimistic",
+    "top_k": 10,
+    "use_hybrid": false,
+    "use_reranking": true,
+    "chunk_size": 1000,
+    "chunk_strategy": "fixed_overlap"
+  },
+  "metrics": {
+    "total_samples": 10,
+    "correct": 4,
+    "accuracy": 0.4,
+    "by_label": {
+      "inconsistent": {
+        "total": 5,
+        "correct": 1,
+        "accuracy": 0.2
+      },
+      "consistent": {
+        "total": 5,
+        "correct": 3,
+        "accuracy": 0.6
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": 46,
+      "book_name": "In Search of the Castaways",
+      "character": "Thalcave",
+      "backstory": "Thalcave\u2019s people faded as colonists advanced; his father, last of the tribal guides, knew the pampa...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "No explicit, undeniable proof of contradiction was found for any part of Thalcave's backstory."
+    },
+    {
+      "id": 137,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Faria",
+      "backstory": "Suspected again in 1815, he was re-arrested and shipped to the Ch\u00e2teau d\u2019If, this time for life....",
+      "prediction": 0,
+      "actual": 0,
+      "correct": true,
+      "rationale": "The backstory states Faria was \"re-arrested and shipped to the Ch\u00e2teau d\u2019If, this time for life\" in 1815. However, Excerpt 4 explicitly states: \"Now we have in a dungeon about twenty feet distant, and to which you descend by another stair, an old abb\u00e9, formerly leader of a party in Italy, who has been here since 1811, and in 1813 he went mad, and\". This directly contradicts the 1815 date of his arrival at the Ch\u00e2teau d'If, stating he had been there since 1811."
+    },
+    {
+      "id": 74,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Before each fight he studied the crack-patterns of his mother\u2019s shark-tooth necklace by moonlight to...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The provided excerpts do not mention the character Kai-Koumou, nor do they contain any information about shark-tooth necklaces, studying crack-patterns, or divining outcomes before a fight. There is no direct, explicit statement in the evidence that proves the backstory claim is false. The backstory adds details not covered in the novel, which is consistent with the instructions for marking as (1)."
+    },
+    {
+      "id": 109,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Noirtier",
+      "backstory": "Villefort\u2019s drift toward the royalists disappointed him; father and son argued politics at every fam...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "The backstory states that Villefort's drift toward the royalists disappointed Noirtier and that they argued politics at every family gathering. The novel explicitly establishes Noirtier as a Bonapartist/Jacobin and Villefort as a staunch royalist who disowns his father's political principles (Excerpt 2, Excerpt 4). This fundamental political opposition makes Noirtier's disappointment entirely plausible and even strongly implied by his \"hate,\" \"reproach,\" and \"menace\" towards Villefort in Excerpt 1. There is no explicit statement in the evidence that contradicts Noirtier's disappointment."
+    },
+    {
+      "id": 104,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Noirtier",
+      "backstory": "His parents were targeted in a reprisal for supporting the Revolution; his mother was killed, deepen...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory claims \"his mother was killed\". Excerpt 1 explicitly states, \"his mother having died at his birth\". Dying at birth implies natural causes related to childbirth, which directly contradicts the claim that she was \"killed\" (implying an act of violence or murder)."
+    },
+    {
+      "id": 35,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "The mutiny began when Captain Grant uncovered his forged logbook and threatened to report him; \u201cmaro...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "The provided novel excerpts detail Ayrton's later treachery in Australia (as Ben Joyce) and his fabricated story of the Britannia's shipwreck. They confirm that Ayrton is a \"bold and formidable criminal\" and that his story of the shipwreck was a lie, designed to mislead Glenarvan. However, the excerpts do not provide any specific details about the *actual* mutiny on the Britannia, the reasons for it (e.g., a forged logbook), or the precise manner in which Captain Grant was marooned. The backstory's claims about a forged logbook, a botched silencing, and Ayrton locking the captain in a keel-less lifeboat are not mentioned in the evidence, nor are they directly contradicted. Since there is no explicit, undeniable proof in the provided text that these claims are false, and they merely add details not covered, the backstory is considered consistent under the given instructions."
+    },
+    {
+      "id": 18,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He once found bribery entries in his father\u2019s old ledgers, reported them, and saw his father\u2019s colle...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The provided novel excerpts do not contain any information regarding Jacques Paganel's father, his ledgers, bribery entries, a dismissed colleague, or any past gossip that made him wary of the upper nobility. The excerpts describe Paganel's actions and interactions during the expedition, but they do not delve into his personal history or past experiences in a way that would confirm or contradict the backstory claims. Since there is no direct, explicit statement in the evidence that proves any part of the backstory claim is false, and the contradiction is not unambiguous and certain, the backstory is considered consistent according to the given instructions."
+    },
+    {
+      "id": 31,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "He rescued the indigenous elder Yurook from colonists and gained tribal protection, learning bush tr...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory claims that Ayrton \"gained tribal protection.\" This is directly contradicted by Excerpt 4, which states: \"When he came to himself, he was in the hands of the natives, who carried him into the interior of the country... The shipwrecked sailor, prisoner of a native tribe, was carried into the interior regions watered by the Darling. Here he led a very wretched existence, because the tribe itself was miserable; but he was not maltreated. For two long years he endured a painful slavery.\" Being a \"prisoner of a native tribe\" and enduring \"painful slavery\" is the explicit opposite of having \"gained tribal protection.\" This is an unambiguous and certain contradiction. The other claims (\"rescued the indigenous elder Yurook from colonists,\" \"learning bush tracking,\" \"secretly mapping settler outposts\") are not explicitly contradicted by the provided text, but the direct contradiction of \"gained tribal protection\" makes the overall backstory inconsistent."
+    },
+    {
+      "id": 83,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At eighteen, on the run in Tasmania, he met the escaped convict Ayrton hiding in the bush; the two f...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "The character Kai-Koumou is not mentioned anywhere in the provided novel excerpts. The excerpts detail Ayrton's (Ben Joyce's) identity as a convict leader and his actions related to the *Britannia* expedition, including his past as a \"formidable bandit\" and \"chief of a band of convicts.\" However, the novel does not provide specific details about Ayrton's early life as a fugitive, where or when he became a convict, or who he met during that period. Since Kai-Koumou is not mentioned, and there is no explicit information in the text that contradicts the claims about his age, location (Tasmania), meeting Ayrton, or their shared activities, the backstory is considered consistent as it adds details not covered in the novel without directly contradicting any established facts."
+    },
+    {
+      "id": 112,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Noirtier",
+      "backstory": "Through underground circles he met the Count of Monte Cristo and fed the avenger vital information, ...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "The provided excerpts do not contain any direct, explicit statements that contradict the backstory claim that Noirtier met the Count of Monte Cristo through underground circles, fed him vital information, or lent invisible aid to his plot. The excerpts simply do not mention these interactions, which falls under \"not mentioned\" or \"adds details not covered in the novel.\" There is no undeniable proof of contradiction."
+    }
+  ]
+}

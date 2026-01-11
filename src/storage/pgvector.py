@@ -4,7 +4,7 @@ PostgreSQL + pgvector storage for novel chunks.
 Provides vector similarity search using pgvector extension.
 """
 
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, Any
 import psycopg2
 from psycopg2.extras import execute_values
 from pgvector.psycopg2 import register_vector
@@ -67,6 +67,12 @@ class VectorStore:
             # Enable pgvector extension
             cur.execute("CREATE EXTENSION IF NOT EXISTS vector")
             
+            # Add metadata column if it doesn't exist
+            cur.execute("""
+                ALTER TABLE chunks 
+                ADD COLUMN IF NOT EXISTS metadata JSONB DEFAULT '{}'::jsonb
+            """)
+            
             # Create chunks table
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS chunks (
@@ -75,6 +81,7 @@ class VectorStore:
                     chunk_index INT NOT NULL,
                     content TEXT NOT NULL,
                     embedding vector(768),
+                    metadata JSONB DEFAULT '{}'::jsonb,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     UNIQUE(book_name, chunk_index)
                 )
@@ -82,7 +89,8 @@ class VectorStore:
             
             # Create indexes
             cur.execute("""
-                CREATE INDEX IF NOT EXISTS chunks_book_name_idx ON chunks(book_name)
+                CREATE INDEX IF NOT EXISTS chunks_book_name_idx ON chunks(book_name);
+                CREATE INDEX IF NOT EXISTS chunks_metadata_idx ON chunks USING GIN (metadata);
             """)
         
         self.conn.commit()
@@ -189,27 +197,32 @@ class VectorStore:
         logger.info(f"Inserting {len(chunks)} chunks into database")
         
         # Prepare data for insertion
-        data = [
-            (
+        data = []
+        import json
+        
+        for chunk, embedding in zip(chunks, embeddings):
+            metadata = chunk.get("metadata", {})
+            data.append((
                 chunk["book_name"],
                 chunk["chunk_index"],
                 chunk["content"],
-                embedding
-            )
-            for chunk, embedding in zip(chunks, embeddings)
-        ]
+                embedding,
+                json.dumps(metadata)
+            ))
         
         with self.conn.cursor() as cur:
             execute_values(
                 cur,
                 """
-                INSERT INTO chunks (book_name, chunk_index, content, embedding)
+                INSERT INTO chunks (book_name, chunk_index, content, embedding, metadata)
                 VALUES %s
                 ON CONFLICT (book_name, chunk_index) DO UPDATE
-                SET content = EXCLUDED.content, embedding = EXCLUDED.embedding
+                SET content = EXCLUDED.content,
+                    embedding = EXCLUDED.embedding,
+                    metadata = EXCLUDED.metadata
                 """,
                 data,
-                template="(%s, %s, %s, %s::vector)"
+                template="(%s, %s, %s, %s::vector, %s::jsonb)"
             )
         
         self.conn.commit()
@@ -217,13 +230,45 @@ class VectorStore:
         
         return len(chunks)
     
+    def update_chunk_metadata(self, chunk_id: int, metadata: Dict):
+        """Update metadata for a specific chunk."""
+        import json
+        import psycopg2
+        
+        self._ensure_connection()
+        try:
+            with self.conn.cursor() as cur:
+                cur.execute(
+                    "UPDATE chunks SET metadata = %s WHERE id = %s",
+                    (json.dumps(metadata), chunk_id)
+                )
+            self.conn.commit()
+        except psycopg2.errors.UndefinedColumn:
+            # Auto-migration: Add column if it doesn't exist
+            self.conn.rollback()
+            logger.info("Migrating schema: Adding metadata column...")
+            with self.conn.cursor() as cur:
+                cur.execute("ALTER TABLE chunks ADD COLUMN IF NOT EXISTS metadata JSONB DEFAULT '{}'::jsonb")
+                cur.execute("CREATE INDEX IF NOT EXISTS chunks_metadata_idx ON chunks USING GIN (metadata)")
+            self.conn.commit()
+            
+            # Retry update
+            self.update_chunk_metadata(chunk_id, metadata)
+
+    def get_all_chunks_with_id(self) -> List[Tuple[int, str, str]]:
+        """Get all chunks with ID, book_name, content."""
+        self._ensure_connection()
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT id, book_name, content FROM chunks")
+            return cur.fetchall()
+    
     def search_similar(
         self,
         query_embedding: List[float],
         book_name: str,
         top_k: int = 10,
         threshold: float = 0.0
-    ) -> List[Tuple[str, float, int]]:
+    ) -> List[Tuple[str, float, int, Dict]]:
         """
         Search for similar chunks using cosine similarity.
         
@@ -234,7 +279,7 @@ class VectorStore:
             threshold: Minimum similarity score (0-1)
             
         Returns:
-            List of tuples (content, similarity_score, chunk_index)
+            List of tuples (content, similarity_score, chunk_index, metadata)
         """
         self._ensure_connection()
         
@@ -245,7 +290,7 @@ class VectorStore:
             # Convert to similarity: 1 - distance
             cur.execute(
                 """
-                SELECT content, 1 - (embedding <=> %s::vector) as similarity, chunk_index
+                SELECT content, 1 - (embedding <=> %s::vector) as similarity, chunk_index, metadata
                 FROM chunks
                 WHERE book_name = %s
                 ORDER BY embedding <=> %s::vector
@@ -256,11 +301,12 @@ class VectorStore:
             
             results = cur.fetchall()
         
-        # Filter by threshold
-        filtered = [(content, sim, idx) for content, sim, idx in results if sim >= threshold]
-        
-        logger.debug(f"Found {len(filtered)} chunks above threshold {threshold}")
-        return filtered
+        # Filter by threshold and format
+        return [
+            (row[0], float(row[1]), row[2], row[3] if len(row) > 3 else {}) 
+            for row in results 
+            if float(row[1]) >= threshold
+        ]
     
     def get_chunk_count(self, book_name: Optional[str] = None) -> int:
         """
@@ -338,3 +384,204 @@ class VectorStore:
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
+    
+    # =========================================================================
+    # CANONICAL BACKSTORY METHODS
+    # =========================================================================
+    
+    def init_canonical_schema(self):
+        """Initialize canonical_backstories table."""
+        self._ensure_connection()
+        
+        logger.info("Initializing canonical_backstories schema...")
+        
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS canonical_backstories (
+                    id SERIAL PRIMARY KEY,
+                    book_name TEXT NOT NULL,
+                    character_name TEXT NOT NULL,
+                    backstory TEXT NOT NULL,
+                    backstory_embedding vector(768),
+                    version INT DEFAULT 1,
+                    model_used TEXT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    UNIQUE(book_name, character_name, version)
+                )
+            """)
+            
+            cur.execute("""
+                CREATE INDEX IF NOT EXISTS canonical_book_char_idx 
+                ON canonical_backstories(book_name, character_name);
+            """)
+        
+        self.conn.commit()
+        logger.info("Canonical backstories schema initialized")
+    
+    def store_canonical_backstory(
+        self,
+        book_name: str,
+        character_name: str,
+        backstory: str,
+        embedding: List[float],
+        model_used: str = None,
+        version: int = 1
+    ) -> int:
+        """
+        Store a canonical backstory for a character.
+        
+        Args:
+            book_name: Name of the book
+            character_name: Character name
+            backstory: Generated canonical backstory
+            embedding: Backstory embedding vector
+            model_used: Model used for generation
+            version: Version number (for tracking)
+            
+        Returns:
+            ID of inserted/updated row
+        """
+        self._ensure_connection()
+        
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO canonical_backstories 
+                    (book_name, character_name, backstory, backstory_embedding, model_used, version)
+                VALUES (%s, %s, %s, %s::vector, %s, %s)
+                ON CONFLICT (book_name, character_name, version) DO UPDATE
+                SET backstory = EXCLUDED.backstory,
+                    backstory_embedding = EXCLUDED.backstory_embedding,
+                    model_used = EXCLUDED.model_used,
+                    created_at = CURRENT_TIMESTAMP
+                RETURNING id
+            """, (book_name, character_name, backstory, embedding, model_used, version))
+            
+            row_id = cur.fetchone()[0]
+        
+        self.conn.commit()
+        logger.info(f"Stored canonical backstory for '{character_name}' in '{book_name}' (v{version})")
+        
+        return row_id
+    
+    def get_canonical_backstory(
+        self,
+        book_name: str,
+        character_name: str,
+        version: int = None
+    ) -> Optional[Tuple[str, List[float]]]:
+        """
+        Get canonical backstory for a character.
+        
+        Args:
+            book_name: Name of the book
+            character_name: Character name
+            version: Specific version (None = latest)
+            
+        Returns:
+            Tuple of (backstory, embedding) or None if not found
+        """
+        self._ensure_connection()
+        
+        with self.conn.cursor() as cur:
+            if version:
+                cur.execute("""
+                    SELECT backstory, backstory_embedding
+                    FROM canonical_backstories
+                    WHERE book_name = %s AND character_name = %s AND version = %s
+                """, (book_name, character_name, version))
+            else:
+                # Get latest version
+                cur.execute("""
+                    SELECT backstory, backstory_embedding
+                    FROM canonical_backstories
+                    WHERE book_name = %s AND character_name = %s
+                    ORDER BY version DESC
+                    LIMIT 1
+                """, (book_name, character_name))
+            
+            row = cur.fetchone()
+        
+        if row:
+            # row[1] is a numpy array from pgvector, check if it's not None
+            embedding = list(row[1]) if row[1] is not None else None
+            return row[0], embedding
+        return None
+    
+    def get_all_canonical_backstories(self, book_name: str = None) -> List[Dict]:
+        """Get all canonical backstories, optionally filtered by book."""
+        self._ensure_connection()
+        
+        with self.conn.cursor() as cur:
+            if book_name:
+                cur.execute("""
+                    SELECT book_name, character_name, backstory, version, model_used, created_at
+                    FROM canonical_backstories
+                    WHERE book_name = %s
+                    ORDER BY character_name, version DESC
+                """, (book_name,))
+            else:
+                cur.execute("""
+                    SELECT book_name, character_name, backstory, version, model_used, created_at
+                    FROM canonical_backstories
+                    ORDER BY book_name, character_name, version DESC
+                """)
+            
+            rows = cur.fetchall()
+        
+        return [
+            {
+                "book_name": row[0],
+                "character_name": row[1],
+                "backstory": row[2],
+                "version": row[3],
+                "model_used": row[4],
+                "created_at": row[5]
+            }
+            for row in rows
+        ]
+    
+    def search_by_character(
+        self,
+        book_name: str,
+        character: str,
+        top_k: int = 20
+    ) -> List[str]:
+        """
+        Find chunks that mention a specific character.
+        
+        Uses simple text search on chunk content.
+        
+        Args:
+            book_name: Name of the book
+            character: Character name to search for
+            top_k: Maximum chunks to return
+            
+        Returns:
+            List of chunk contents mentioning the character
+        """
+        self._ensure_connection()
+        
+        # Handle character aliases (e.g., "Tom Ayrton/Ben Joyce")
+        char_variants = [c.strip() for c in character.split('/')]
+        
+        with self.conn.cursor() as cur:
+            # Build OR condition for all character variants
+            conditions = " OR ".join(["content ILIKE %s" for _ in char_variants])
+            params = [f"%{c}%" for c in char_variants]
+            params.insert(0, book_name)
+            
+            query = f"""
+                SELECT content, chunk_index
+                FROM chunks
+                WHERE book_name = %s AND ({conditions})
+                ORDER BY chunk_index
+                LIMIT %s
+            """
+            params.append(top_k)
+            
+            cur.execute(query, params)
+            rows = cur.fetchall()
+        
+        logger.info(f"Found {len(rows)} chunks mentioning '{character}' in '{book_name}'")
+        return [row[0] for row in rows]
+

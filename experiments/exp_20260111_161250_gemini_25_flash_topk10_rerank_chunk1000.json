@@ -1,0 +1,135 @@
+{
+  "run_info": {
+    "timestamp": "20260111_161250",
+    "rows": 10,
+    "books": [
+      "In search of the castaways"
+    ],
+    "model": "gemini-2.5-flash",
+    "prompt_strategy": "base",
+    "top_k": 10,
+    "use_hybrid": false,
+    "use_reranking": true,
+    "chunk_size": 1000,
+    "chunk_strategy": "fixed_overlap"
+  },
+  "metrics": {
+    "total_samples": 10,
+    "correct": 6,
+    "accuracy": 0.6,
+    "by_label": {
+      "inconsistent": {
+        "total": 2,
+        "correct": 2,
+        "accuracy": 1.0
+      },
+      "consistent": {
+        "total": 8,
+        "correct": 4,
+        "accuracy": 0.5
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": 46,
+      "book_name": "In Search of the Castaways",
+      "character": "Thalcave",
+      "backstory": "Thalcave\u2019s people faded as colonists advanced; his father, last of the tribal guides, knew the pampa...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "Thalcave's demonstrated skills and knowledge in the novel are perfectly explained and supported by the proposed backstory, and no part of the backstory contradicts any explicit information or causal chains within the text."
+    },
+    {
+      "id": 74,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Before each fight he studied the crack-patterns of his mother\u2019s shark-tooth necklace by moonlight to...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The character Kai-Koumou is not mentioned in the provided excerpts, so there are no direct contradictions or inconsistencies with established character traits or events. The elements of the backstory (sharks, moonlight, divination, fights) are plausible within the general setting and themes of the novel, which features diverse cultures and natural challenges."
+    },
+    {
+      "id": 35,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "The mutiny began when Captain Grant uncovered his forged logbook and threatened to report him; \u201cmaro...",
+      "prediction": 0,
+      "actual": 0,
+      "correct": true,
+      "rationale": "The backstory directly contradicts the novel's account of Ayrton's mutiny and subsequent marooning, falsely claiming Ayrton locked Captain Grant in a lifeboat when the novel clearly states Captain Grant marooned Ayrton."
+    },
+    {
+      "id": 18,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He once found bribery entries in his father\u2019s old ledgers, reported them, and saw his father\u2019s colle...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "Paganel's established character traits of \"amiable freedom\" and general happiness, along with his unreserved interactions with Lord and Lady Glenarvan, contradict the claim that he is \"wary of the upper nobility.\""
+    },
+    {
+      "id": 31,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "He rescued the indigenous elder Yurook from colonists and gained tribal protection, learning bush tr...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory directly contradicts Ayrton's own detailed account of being a prisoner of a native tribe and escaping, rather than rescuing an elder or gaining tribal protection. There is no evidence for him mapping settler outposts."
+    },
+    {
+      "id": 68,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At ten, migrating with his clan, a flame-shaped birth-mark on his forehead convinced elders he was t...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory is inconsistent because it places European bison in New Zealand, contradicts the detailed description of Kai-Koumou's facial tattooing, and presents a conflicting cultural origin for his identity."
+    },
+    {
+      "id": 9,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He accidentally slipped a farewell letter to his French sweetheart into an academic report; the roma...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The backstory is highly consistent with Paganel's established absent-minded character and his prominent academic career, and it does not contradict his romantic status prior to his marriage to Arabella."
+    },
+    {
+      "id": 84,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "In a skirmish at a British outpost friendly fire killed several of his comrades; he took bones from ...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory is inconsistent because Kai-Koumou is explicitly described as displaying strong emotions like hostility, rage, exultation, and regret, directly contradicting the claim that he \"sealed his emotions.\""
+    },
+    {
+      "id": 83,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At eighteen, on the run in Tasmania, he met the escaped convict Ayrton hiding in the bush; the two f...",
+      "prediction": 0,
+      "actual": 0,
+      "correct": true,
+      "rationale": "The backstory places Ayrton in Tasmania, which directly contradicts his established criminal history and movements in Australia from April 1862 onwards, as detailed in his confession and corroborated by other characters."
+    },
+    {
+      "id": 67,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Born on New Zealand\u2019s North-island east coast to a Maori war-chief father and a priestess mother ski...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The backstory aligns well with Kai-Koumou's character, motivations, and the historical context of Maori-British conflict described in the novel, with no direct contradictions."
+    }
+  ]
+}

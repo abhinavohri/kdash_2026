@@ -1,0 +1,136 @@
+{
+  "run_info": {
+    "timestamp": "20260111_191403",
+    "rows": 10,
+    "books": [
+      "In search of the castaways",
+      "The Count of Monte Cristo"
+    ],
+    "model": "gemini-2.5-flash",
+    "prompt_strategy": "conservative",
+    "top_k": 10,
+    "use_hybrid": false,
+    "use_reranking": true,
+    "chunk_size": 1000,
+    "chunk_strategy": "fixed_overlap"
+  },
+  "metrics": {
+    "total_samples": 10,
+    "correct": 5,
+    "accuracy": 0.5,
+    "by_label": {
+      "inconsistent": {
+        "total": 5,
+        "correct": 1,
+        "accuracy": 0.2
+      },
+      "consistent": {
+        "total": 5,
+        "correct": 4,
+        "accuracy": 0.8
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": 46,
+      "book_name": "In Search of the Castaways",
+      "character": "Thalcave",
+      "backstory": "Thalcave\u2019s people faded as colonists advanced; his father, last of the tribal guides, knew the pampa...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The input backstory does not contradict any facts in the canonical backstory. In fact, it provides additional details that are not present in the novel, such as Thalcave's childhood experiences and his mother's death."
+    },
+    {
+      "id": 137,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Faria",
+      "backstory": "Suspected again in 1815, he was re-arrested and shipped to the Ch\u00e2teau d\u2019If, this time for life....",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "The input backstory contradicts the canonical backstory in one key point. According to the novel, Abb\u00e9 Faria was arrested in 1811 at Piombino, Italy, and then re-arrested in 1815 for life. However, the input backstory states that Faria was suspected again in 1815, which is a subset of the canonical information but does not add new details."
+    },
+    {
+      "id": 74,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Before each fight he studied the crack-patterns of his mother\u2019s shark-tooth necklace by moonlight to...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The input backstory contradicts the canonical backstory in one significant aspect. According to the canonical backstory, Kai-Koumou is a skilled warrior and canoe guide who maintains his reason and control even amidst the frenzied rituals of his tribe. However, the input backstory states that before each fight, he studies the crack-patterns of his mother's shark-tooth necklace by moonlight to divine the outcome, which implies that Kai-Koumou is relying on superstition or divination rather than reason and control."
+    },
+    {
+      "id": 109,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Noirtier",
+      "backstory": "Villefort\u2019s drift toward the royalists disappointed him; father and son argued politics at every fam...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. In the canonical backstory, Noirtier is described as a Bonapartist and takes an active role in every Bonapartist conspiracy during the Bourbon Restoration. However, the input backstory states that Villefort's drift toward the royalists disappointed him, implying that Noirtier may not have been as supportive of his son's political views."
+    },
+    {
+      "id": 104,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Noirtier",
+      "backstory": "His parents were targeted in a reprisal for supporting the Revolution; his mother was killed, deepen...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. In the canonical backstory, Noirtier's parents were targeted in a reprisal for supporting the Revolution, but there is no mention of his mother being killed. The input adds this detail, which is not present in the original novel."
+    },
+    {
+      "id": 35,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "The mutiny began when Captain Grant uncovered his forged logbook and threatened to report him; \u201cmaro...",
+      "prediction": 0,
+      "actual": 0,
+      "correct": true,
+      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. In the canonical backstory, it is stated that Tom Ayrton was \"marooned\" by Captain Grant after discovering his forged logbook and threatening to report him. However, the input backstory claims that this event occurred when Captain Grant \"uncovered his forged logbook and threatened to report him,\" which is a slight rephrasing but still implies the same sequence of events."
+    },
+    {
+      "id": 18,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He once found bribery entries in his father\u2019s old ledgers, reported them, and saw his father\u2019s colle...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The input backstory contains a detail that contradicts the canonical backstory. In the canonical backstory, Jacques Paganel is described as having dedicated twenty years of his life to the study of geography and being an esteemed geographer with extensive international connections. However, the input backstory states that he found bribery entries in his father's old ledgers, reported them, and saw his father's colleague dismissed. This event suggests a more mundane and possibly unremarkable aspect of Paganel's past, which contradicts the canonical description of him as a distinguished geographer."
+    },
+    {
+      "id": 31,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "He rescued the indigenous elder Yurook from colonists and gained tribal protection, learning bush tr...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The input backstory contradicts the canonical backstory in one key aspect. According to the canonical backstory, Tom Ayrton (Ben Joyce) was a convict who joined a band of recently escaped convicts and later orchestrated a betrayal against Lord Glenarvan's party. However, the input backstory states that he rescued an indigenous elder Yurook from colonists and gained tribal protection, which is not mentioned in the canonical backstory."
+    },
+    {
+      "id": 83,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At eighteen, on the run in Tasmania, he met the escaped convict Ayrton hiding in the bush; the two f...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "The input backstory contradicts the canonical backstory in several aspects. Here are the key discrepancies:"
+    },
+    {
+      "id": 112,
+      "book_name": "The Count of Monte Cristo",
+      "character": "Noirtier",
+      "backstory": "Through underground circles he met the Count of Monte Cristo and fed the avenger vital information, ...",
+      "prediction": 1,
+      "actual": 0,
+      "correct": false,
+      "rationale": "The input backstory contradicts the canonical backstory in several key points. Specifically:"
+    }
+  ]
+}

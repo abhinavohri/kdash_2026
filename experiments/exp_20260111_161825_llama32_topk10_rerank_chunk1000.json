@@ -1,0 +1,135 @@
+{
+  "run_info": {
+    "timestamp": "20260111_161825",
+    "rows": 10,
+    "books": [
+      "In search of the castaways"
+    ],
+    "model": "gemini-2.5-flash",
+    "prompt_strategy": "base",
+    "top_k": 10,
+    "use_hybrid": false,
+    "use_reranking": true,
+    "chunk_size": 1000,
+    "chunk_strategy": "fixed_overlap"
+  },
+  "metrics": {
+    "total_samples": 10,
+    "correct": 3,
+    "accuracy": 0.3,
+    "by_label": {
+      "inconsistent": {
+        "total": 2,
+        "correct": 2,
+        "accuracy": 1.0
+      },
+      "consistent": {
+        "total": 8,
+        "correct": 1,
+        "accuracy": 0.125
+      }
+    }
+  },
+  "predictions": [
+    {
+      "id": 46,
+      "book_name": "In Search of the Castaways",
+      "character": "Thalcave",
+      "backstory": "Thalcave\u2019s people faded as colonists advanced; his father, last of the tribal guides, knew the pampa...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory contains direct contradictions with the novel events and introduces causal impossibilities, character inconsistencies, and timeline conflicts."
+    },
+    {
+      "id": 74,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Before each fight he studied the crack-patterns of his mother\u2019s shark-tooth necklace by moonlight to...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory contains several inconsistencies and contradictions with the novel events, particularly regarding the geographer's name, Thaouka's role, and the Indian's advice. While some details might be plausible, the overall narrative seems to be inconsistent with the rest of the novel."
+    },
+    {
+      "id": 35,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "The mutiny began when Captain Grant uncovered his forged logbook and threatened to report him; \u201cmaro...",
+      "prediction": 0,
+      "actual": 0,
+      "correct": true,
+      "rationale": "The claims in the backstory directly contradict events and character traits established in the novel. While some minor details may seem plausible, the overall narrative is inconsistent with the evidence presented in the novel."
+    },
+    {
+      "id": 18,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He once found bribery entries in his father\u2019s old ledgers, reported them, and saw his father\u2019s colle...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "Consider if the backstory could plausibly exist alongside the novel events\n\nPlease provide the backstory, and I'll get started on the analysis"
+    },
+    {
+      "id": 31,
+      "book_name": "In Search of the Castaways",
+      "character": "Tom Ayrton/Ben Joyce",
+      "backstory": "He rescued the indigenous elder Yurook from colonists and gained tribal protection, learning bush tr...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory contains direct contradictions with the novel text, causal impossibilities, character inconsistencies, and timeline conflicts, making it inconsistent with the events of the novel."
+    },
+    {
+      "id": 68,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At ten, migrating with his clan, a flame-shaped birth-mark on his forehead convinced elders he was t...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory contains direct contradictions and causal impossibilities that cannot be reconciled with the events of the novel."
+    },
+    {
+      "id": 9,
+      "book_name": "In Search of the Castaways",
+      "character": "Jacques Paganel",
+      "backstory": "He accidentally slipped a farewell letter to his French sweetheart into an academic report; the roma...",
+      "prediction": 1,
+      "actual": 1,
+      "correct": true,
+      "rationale": "The backstory doesn't pose any direct contradictions with the novel text and seems plausible as an addition to the world-building."
+    },
+    {
+      "id": 84,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "In a skirmish at a British outpost friendly fire killed several of his comrades; he took bones from ...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory contains claims that contradict or lack evidence in the novel. Specifically, the major's suspicion about Ayrton and Glenarvan's expectation of death by Kai-Koumou are not supported by the provided text."
+    },
+    {
+      "id": 83,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "At eighteen, on the run in Tasmania, he met the escaped convict Ayrton hiding in the bush; the two f...",
+      "prediction": 0,
+      "actual": 0,
+      "correct": true,
+      "rationale": "The backstory contains direct contradictions and causal impossibilities that cannot be reconciled with the evidence from the novel, making it inconsistent."
+    },
+    {
+      "id": 67,
+      "book_name": "In Search of the Castaways",
+      "character": "Kai-Koumou",
+      "backstory": "Born on New Zealand\u2019s North-island east coast to a Maori war-chief father and a priestess mother ski...",
+      "prediction": 0,
+      "actual": 1,
+      "correct": false,
+      "rationale": "The backstory contains several inconsistencies, particularly regarding Paganel's expertise and the existence of an overland mail-road in the area. These contradictions suggest that the backstory may not be entirely consistent with the novel events."
+    }
+  ]
+}

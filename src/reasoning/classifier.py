@@ -37,6 +37,15 @@ class ConsistencyClassifier:
         
         if llm_provider:
             self.llm = llm_provider
+        elif self.config.use_hybrid:
+            # Use hybrid NLI + LLM approach (recommended)
+            from .hybrid_classifier import get_hybrid_classifier
+            self.llm = get_hybrid_classifier(
+                config=self.config,
+                nli_confidence_threshold=self.config.nli_confidence_threshold,
+                min_contradictions=self.config.min_contradictions,
+                use_llm_fallback=self.config.use_llm_fallback
+            )
         elif self.config.use_nli:
             # Use NLI for direct contradiction detection
             from ..models.nli_classifier import get_nli_classifier
@@ -49,7 +58,9 @@ class ConsistencyClassifier:
             # Use cloud API (Gemini)
             self.llm = get_llm_provider(config)
         
-        if self.config.use_nli:
+        if self.config.use_hybrid:
+            model_name = "Hybrid (NLI + LLM)"
+        elif self.config.use_nli:
             model_name = "NLI (DeBERTa)"
         elif self.config.use_local:
             model_name = self.config.local_model
