@@ -551,7 +551,7 @@ class KDSHPipeline:
         results = []
         if os.path.exists(output_path):
             existing_df = pd.read_csv(output_path)
-            existing_ids = set(existing_df['Story ID'].tolist())
+            existing_ids = set(existing_df['story_id'].tolist())
             results = existing_df.to_dict('records')
             logger.info(f"Resuming from {len(existing_ids)} existing results")
         
@@ -569,9 +569,9 @@ class KDSHPipeline:
                 )
                 
                 results.append({
-                    'Story ID': row['id'],
-                    'Prediction': prediction,
-                    'Rationale': rationale
+                    'story_id': row['id'],
+                    'prediction': prediction,
+                    'rationale': rationale
                 })
                 
                 # Save progress after each row
